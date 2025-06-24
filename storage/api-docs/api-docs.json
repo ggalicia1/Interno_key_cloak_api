@@ -1,0 +1,382 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Keycloak Middleware",
+        "description": "Documentación Swagger de la API intermedia entre Laravel y Keycloak",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Listar usuarios de un reino.",
+                "operationId": "e4bc0f34229f7e2be761d6aa1c5c307c",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del Reino",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/user-by-id": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Obtiene un usuario por id del reino.",
+                "operationId": "57fbc998657d26dcfdaf5024ec176473",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Listar clientes del reino.",
+                "operationId": "f2321db7fec8448dc1048cd341b1f55a",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del reino",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients/client-by-id": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Obtiene cliente por Id de un reino",
+                "operationId": "579cd03a6d22fb7a7f523992bd7ffe46",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_id",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Listar roles del reino",
+                "operationId": "d65ad88054aa19a95849109a46bfab0a",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del reino",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/roles/role-by-name": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Obtiene rol por nombre del reino.",
+                "operationId": "63a8bcc95d6f731c5b14dacf9adb6cac",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "role_name",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/realms": {
+            "get": {
+                "tags": [
+                    "Realms"
+                ],
+                "summary": "Listar reinos de keycloak",
+                "operationId": "ec40aa3236554383d74b072ebcb5a4f5",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/realms/realm-by-name": {
+            "get": {
+                "tags": [
+                    "Realms"
+                ],
+                "summary": "Obtiene reino por nombre",
+                "operationId": "3d8114084358ba290db326123341897c",
+                "parameters": [
+                    {
+                        "name": "realm_name",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "User"
+        },
+        {
+            "name": "Clients",
+            "description": "Clients"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
+            "name": "Realms",
+            "description": "Realms"
+        }
+    ]
+}
