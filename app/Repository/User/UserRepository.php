@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\User;
 
 use App\Contracts\User\IUser;
 use App\Http\Controllers\Controller;

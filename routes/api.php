@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\KeyCloakController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -27,11 +28,16 @@ Route::prefix('users')->group(function(){
     Route::get('retrieve-groups', [UserController::class, 'retrieveGroups']);
 });
 
+Route::prefix('clients')->controller(ClientController::class)->group(function(){
+    Route::get('', 'clients');
+    Route::get('client-by-id', 'clientById');
+});
 
 
 
-Route::get('clients', [KeyCloakController::class, 'clients']);
+/* Route::get('clients', [KeyCloakController::class, 'clients']);
 Route::get('clients/client-by-id', [KeyCloakController::class, 'clientById']);
+ */
 Route::get('roles', [KeyCloakController::class, 'roles']);
 Route::get('roles/role-by-name', [KeyCloakController::class, 'roleByName']);
 Route::get('realms', [KeyCloakController::class, 'realms']);
