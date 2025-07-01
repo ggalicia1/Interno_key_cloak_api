@@ -9,7 +9,111 @@ use Overtrue\LaravelKeycloakAdmin\Facades\KeycloakAdmin;
 class KeyCloakController extends Controller
 {
 
-    
+    /**
+     * @OA\Get(
+     *     path="/api/roles",
+     *     summary="Listar roles del reino",
+     *     tags={"Roles"},
+     *      @OA\Parameter(
+     *         name="realm",
+     *         in="query",
+     *         description="Nombre del reino",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de roles",
+     *         @OA\JsonContent(type="array", @OA\Items(
+     *             @OA\Property(property="id", type="string"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *         ))
+     *     )
+     * )
+     */
+    public function roles(Request $request)
+    {
+        try {
+            $realm = $request->realm ? $request->realm : 'master';
+
+            $roles = KeycloakAdmin::roles()->all($realm);
+            return response()->json([
+                'status' => true,
+                'message' => 'Operación exitosa',
+                'data' => $roles
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            $status_code = $th->getCode();
+            Log::error('Error al obtener lista de roles: ' . $th->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Error en la operación.',
+                'data' => null
+            ], $status_code);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/roles/role-by-name",
+     *     summary="Obtiene rol por nombre del reino.",
+     *     tags={"Roles"},
+     *      @OA\Parameter(
+     *         name="realm",
+     *         in="query",
+     *         description="Id del reino",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="role_name",
+     *         in="query",
+     *         description="Id del client",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de roles",
+     *         @OA\JsonContent(type="array", @OA\Items(
+     *             @OA\Property(property="id", type="string"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *         ))
+     *     )
+     * )
+     */
+    public function roleByName(Request $request)
+    {
+        try {
+            $realm = $request->realm ? $request->realm : 'master';
+            $role_name = $request->role_name ? $request->role_name : null;
+
+            if($realm == null || $role_name == null){
+                return response()->json([
+                'status' => false,
+                'message' => 'Es necesario ambos parametros porfavor.',
+                'data' => null
+            ], 400);
+            }
+
+            $role = KeycloakAdmin::roles()->get($realm, $role_name);
+            return response()->json([
+                'status' => true,
+                'message' => 'Operación exitosa',
+                'data' => $role
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            $status_code = $th->getCode();
+            Log::error('Error al obtener rol por nombre: ' . $th->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Error en la operación.',
+                'data' => null
+            ], $status_code);
+        }
+    }
+
     /**
      * @OA\Get(
      *     path="/api/clients",
@@ -115,110 +219,7 @@ class KeyCloakController extends Controller
         }
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/roles",
-     *     summary="Listar roles del reino",
-     *     tags={"Roles"},
-     *      @OA\Parameter(
-     *         name="realm",
-     *         in="query",
-     *         description="Nombre del reino",
-     *         required=true,
-     *      ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de roles",
-     *         @OA\JsonContent(type="array", @OA\Items(
-     *             @OA\Property(property="id", type="string"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
-     *         ))
-     *     )
-     * )
-     */
-    public function roles(Request $request)
-    {
-        try {
-            $realm = $request->realm ? $request->realm : 'master';
 
-            $roles = KeycloakAdmin::roles()->all($realm);
-            return response()->json([
-                'status' => true,
-                'message' => 'Operación exitosa',
-                'data' => $roles
-            ], 200);
-        } catch (\Throwable $th) {
-            //throw $th;
-            $status_code = $th->getCode();
-            Log::error('Error al obtener lista de roles: ' . $th->getMessage());
-            return response()->json([
-                'status' => false,
-                'message' => 'Error en la operación.',
-                'data' => null
-            ], $status_code);
-        }
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/api/roles/role-by-name",
-     *     summary="Obtiene rol por nombre del reino.",
-     *     tags={"Roles"},
-     *      @OA\Parameter(
-     *         name="realm",
-     *         in="query",
-     *         description="Id del reino",
-     *         required=true,
-     *      ),
-     *      @OA\Parameter(
-     *         name="role_name",
-     *         in="query",
-     *         description="Id del client",
-     *         required=true,
-     *      ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de roles",
-     *         @OA\JsonContent(type="array", @OA\Items(
-     *             @OA\Property(property="id", type="string"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="description", type="string"),
-     *         ))
-     *     )
-     * )
-     */
-    public function roleByName(Request $request)
-    {
-        try {
-            $realm = $request->realm ? $request->realm : 'master';
-            $role_name = $request->role_name ? $request->role_name : null;
-
-            if($realm == null || $role_name == null){
-                return response()->json([
-                'status' => false,
-                'message' => 'Es necesario ambos parametros porfavor.',
-                'data' => null
-            ], 400);
-            }
-
-            $role = KeycloakAdmin::roles()->get($realm, $role_name);
-            return response()->json([
-                'status' => true,
-                'message' => 'Operación exitosa',
-                'data' => $role
-            ], 200);
-        } catch (\Throwable $th) {
-            //throw $th;
-            $status_code = $th->getCode();
-            Log::error('Error al obtener rol por nombre: ' . $th->getMessage());
-            return response()->json([
-                'status' => false,
-                'message' => 'Error en la operación.',
-                'data' => null
-            ], $status_code);
-        }
-    }
 
     /**
      * @OA\Get(

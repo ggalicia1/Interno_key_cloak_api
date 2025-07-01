@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\Route;
 })->middleware('auth:sanctum'); */
 
 
-Route::get('users', [UserController::class, 'users']);
-Route::get('users/user-by-id', [UserController::class, 'userById']);
-Route::post('users', [UserController::class, 'createUser']);
-Route::put('users/{realm}/{user_id}', [UserController::class, 'update']);
-Route::post('users/credentials/reset-password', [UserController::class, 'resetPassword']);
+Route::prefix('users')->group(function(){
+    Route::get('', [UserController::class, 'users']);
+    Route::get('user-by-id', [UserController::class, 'userById']);
+    Route::post('', [UserController::class, 'createUser']);
+    Route::put('{realm}/{user_id}', [UserController::class, 'update']);
+    Route::put('enable-disable/{realm}/{user_id}/{enabled}', [UserController::class, 'enableDisable']);
+    Route::post('credentials/reset-password', [UserController::class, 'resetPassword']);
+    Route::get('search', [UserController::class, 'search']);
+    Route::get('retrieve-realm-roles', [UserController::class, 'retrieveRealmRoles']);
+
+    Route::post('role-assign', [UserController::class, 'roleAssign']);
+
+    Route::put('join-group/{realm}/{user_id}/{group_id}', [UserController::class, 'joinGroup']);
+    Route::delete('leave-group/{realm}/{user_id}/{group_id}', [UserController::class, 'leaveGroup']);
+    Route::get('retrieve-groups', [UserController::class, 'retrieveGroups']);
+});
 
 
 
