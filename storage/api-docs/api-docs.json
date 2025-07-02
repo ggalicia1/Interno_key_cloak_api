@@ -6,6 +6,110 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/clients": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Listar clientes del reino.",
+                "operationId": "16a847df22d1048fd6da41495d03af24",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limite de registros por lista de usuarios o paginado",
+                        "required": true
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Inicio de la lista de usuarios.",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients/client-by-id": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Obtiene cliente por Id de un reino",
+                "operationId": "8f77e3955b5f3c93d901999694952230",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_id",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/roles": {
             "get": {
                 "tags": [
@@ -65,98 +169,6 @@
                     },
                     {
                         "name": "role_name",
-                        "in": "query",
-                        "description": "Id del client",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/clients": {
-            "get": {
-                "tags": [
-                    "Clients"
-                ],
-                "summary": "Listar clientes del reino.",
-                "operationId": "f2321db7fec8448dc1048cd341b1f55a",
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "query",
-                        "description": "Nombre del reino",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/clients/client-by-id": {
-            "get": {
-                "tags": [
-                    "Clients"
-                ],
-                "summary": "Obtiene cliente por Id de un reino",
-                "operationId": "579cd03a6d22fb7a7f523992bd7ffe46",
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "query",
-                        "description": "Id del reino",
-                        "required": true
-                    },
-                    {
-                        "name": "client_id",
                         "in": "query",
                         "description": "Id del client",
                         "required": true
@@ -1217,12 +1229,12 @@
     },
     "tags": [
         {
-            "name": "Roles",
-            "description": "Roles"
-        },
-        {
             "name": "Clients",
             "description": "Clients"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
         },
         {
             "name": "Realms",

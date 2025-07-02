@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\Client\IClient;
 use App\Contracts\User\IUser;
-use App\Repository\UserRepository;
+use App\Repository\Client\ClientRepository;
+use App\Repository\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class KeyCloakServiceProvider extends ServiceProvider
@@ -14,6 +16,7 @@ class KeyCloakServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(IUser::class, UserRepository::class);
+        $this->app->bind(IClient::class, ClientRepository::class);
     }
 
     /**
