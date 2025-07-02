@@ -26,6 +26,18 @@ class ClientController extends Controller
      *         description="Nombre del reino",
      *         required=true,
      *      ),
+     *      @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Limite de registros por lista de usuarios o paginado",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="offset",
+     *         in="query",
+     *         description="Inicio de la lista de usuarios.",
+     *         required=true,
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="Lista de roles",

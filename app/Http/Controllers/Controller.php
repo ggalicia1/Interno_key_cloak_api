@@ -12,16 +12,24 @@ namespace App\Http\Controllers;
 abstract class Controller
 {
     public static function snake_to_camel(string $input): string
-        {
-            $words = explode('_', $input);
-            $camel_case = '';
-            foreach ($words as $key => $word) {
-                if ($key === 0) {
-                    $camel_case .= strtolower($word);
-                } else {
-                    $camel_case .= ucfirst(strtolower($word));
-                }
+    {
+        $words = explode('_', $input);
+        $camel_case = '';
+        foreach ($words as $key => $word) {
+            if ($key === 0) {
+                $camel_case .= strtolower($word);
+            } else {
+                $camel_case .= ucfirst(strtolower($word));
             }
-            return $camel_case;
         }
+        return $camel_case;
+    }
+
+    public static function camel_case_to_snake_case(string $input): string
+    {
+        $pattern = '/(?<=\w)([A-Z])/';
+        $replacement = '_$1';
+        $snake_case = strtolower(preg_replace($pattern, $replacement, $input));
+        return $snake_case;
+    }
 }

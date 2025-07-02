@@ -3,6 +3,7 @@
 namespace App\Repository\Client;
 
 use App\Contracts\Client\IClient;
+use App\Http\Resources\ClientResource;
 use Illuminate\Support\Facades\Log;
 use Overtrue\LaravelKeycloakAdmin\Facades\KeycloakAdmin;
 
@@ -12,10 +13,25 @@ class ClientRepository implements IClient
     public function clients(array $data) : array
     {
         try {
-            $realm = $data['realm'] ? $data['realm'] : 'master';
-            $clients = KeycloakAdmin::clients()->all($realm);
+
+            $realm = $data['realm'];
+            unset($data['realm']);
+            $clients = KeycloakAdmin::clients()->all($realm, [
+                'max' => $data['limit'],
+                'first' => $data['offset']
+            ]);
             if(count($clients) == 0) return [false, 'No se encontraron clientes.', null, 404];
-            return [true, 'Operación exitosa', $clients, 200];
+
+            $new_data = [];
+            foreach ($clients as $client) {
+                $new_data [] = new ClientResource($client);
+            }
+            $response = [
+                'limit' => $data['limit'],
+                'offset' => $data['offset'],
+                'date' => $new_data
+            ];
+            return [true, 'Operación exitosa', $response, 200];
         } catch (\Throwable $th) {
             $status_code = $th->getCode();
             if($status_code != 500) {
@@ -34,7 +50,7 @@ class ClientRepository implements IClient
         try {
             $client = KeycloakAdmin::clients()->get($data['realm'], $data['client_id']);
             if(!$client) return [false, 'No se encontraron clientes.', null, 404];
-            return [true, 'Operación exitosa', $client, 200];
+            return [true, 'Operación exitosa', new ClientResource($client), 200];
         } catch (\Throwable $th) {
             $status_code = $th->getCode();
             if($status_code != 500) {
