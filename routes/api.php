@@ -31,6 +31,9 @@ Route::prefix('users')->group(function(){
 Route::prefix('clients')->controller(ClientController::class)->group(function(){
     Route::get('', 'clients');
     Route::get('client-by-id', 'clientById');
+    Route::post('create', [ClientController::class, 'create']);
+    Route::put('update', [ClientController::class, 'update']);
+
 });
 
 

@@ -110,6 +110,378 @@
                 }
             }
         },
+        "/api/clients/create": {
+            "post": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Crear un nuevo cliente en el reino especificado",
+                "operationId": "c0cd286a45839546842058fdf3a4a49a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "protocol",
+                                    "clientId",
+                                    "name",
+                                    "publicClient",
+                                    "authorizationServicesEnabled",
+                                    "serviceAccountsEnabled",
+                                    "implicitFlowEnabled",
+                                    "directAccessGrantsEnabled",
+                                    "standardFlowEnabled",
+                                    "frontchannelLogout",
+                                    "alwaysDisplayInConsole",
+                                    "rootUrl",
+                                    "baseUrl",
+                                    "redirectUris",
+                                    "webOrigins",
+                                    "attributes"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "protocol": {
+                                        "type": "string",
+                                        "example": "openid-connect"
+                                    },
+                                    "clientId": {
+                                        "type": "string",
+                                        "example": "test-client"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test-client"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Cliente de prueba"
+                                    },
+                                    "publicClient": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "authorizationServicesEnabled": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "serviceAccountsEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "implicitFlowEnabled": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "directAccessGrantsEnabled": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "standardFlowEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "frontchannelLogout": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "alwaysDisplayInConsole": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "rootUrl": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "baseUrl": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "redirectUris": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test/login/keycloak/callback"
+                                        ]
+                                    },
+                                    "webOrigins": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test"
+                                        ]
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "saml_idp_initiated_sso_url_name": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "standard.token.exchange.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "oauth2.device.authorization.grant.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "oidc.ciba.grant.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "post.logout.redirect.uris": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "example": "http://mi-app.test"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente creado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/clients/update": {
+            "put": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Actualizar un cliente existente en Keycloak",
+                "operationId": "345ad1f2403cdec40aa5ee86f3a89ca6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "client_id"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "example": "b17ccfa3-8d0d-4ac7-912d-3c71f0c9d5e2"
+                                    },
+                                    "clientId": {
+                                        "type": "string",
+                                        "example": "nuevo-client-id"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nuevo Nombre del Cliente"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción actualizada del cliente"
+                                    },
+                                    "protocol": {
+                                        "type": "string",
+                                        "example": "openid-connect"
+                                    },
+                                    "publicClient": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "authorizationServicesEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "serviceAccountsEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "implicitFlowEnabled": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "directAccessGrantsEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "standardFlowEnabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "frontchannelLogout": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "alwaysDisplayInConsole": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "consentRequired": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "fullScopeAllowed": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "clientAuthenticatorType": {
+                                        "type": "string",
+                                        "example": "client-secret"
+                                    },
+                                    "rootUrl": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "baseUrl": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "adminUrl": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test/admin"
+                                    },
+                                    "origin": {
+                                        "type": "string",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "redirectUris": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test/login/callback"
+                                        ]
+                                    },
+                                    "webOrigins": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test"
+                                        ]
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "saml_idp_initiated_sso_url_name": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "standard.token.exchange.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "oauth2.device.authorization.grant.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "oidc.ciba.grant.enabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "post.logout.redirect.uris": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "example": "http://mi-app.test/logout"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente actualizado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación o datos inválidos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
         "/api/roles": {
             "get": {
                 "tags": [
