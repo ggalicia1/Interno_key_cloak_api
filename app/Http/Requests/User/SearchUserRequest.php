@@ -23,8 +23,8 @@ class SearchUserRequest extends FormRequest
     {
         return [
             'realm' => 'required|string|max:100',
-            'limit' => 'required|integer',
-            'offset' => 'required|integer',
+            'page_size' => 'required|integer',
+            'page' => 'required|integer',
             'search' => 'required|string',
         ];
     }

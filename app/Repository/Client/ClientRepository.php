@@ -4,7 +4,9 @@ namespace App\Repository\Client;
 
 use App\Contracts\Client\IClient;
 use App\Http\Resources\ClientResource;
+use App\Paginate\GeneratePagination;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Overtrue\LaravelKeycloakAdmin\Facades\KeycloakAdmin;
 use Overtrue\Keycloak\Representation\Client as ClientRepresentation;
 
@@ -13,13 +15,17 @@ class ClientRepository implements IClient
 
     public function clients(array $data) : array
     {
+        /* $pagination = GeneratePagination::pagination($data);
+        dd($pagination); */
         try {
 
             $realm = $data['realm'];
             unset($data['realm']);
+            $pagination = GeneratePagination::pagination($data, null);
+
             $clients = KeycloakAdmin::clients()->all($realm, [
-                'max' => $data['limit'],
-                'first' => $data['offset']
+                'max' => $pagination->page_size,
+                'first' => $pagination->page_index
             ]);
             if(count($clients) == 0) return [false, 'No se encontraron clientes.', null, 404];
 
@@ -27,12 +33,8 @@ class ClientRepository implements IClient
             foreach ($clients as $client) {
                 $new_data [] = new ClientResource($client);
             }
-            $response = [
-                'limit' => $data['limit'],
-                'offset' => $data['offset'],
-                'date' => $new_data
-            ];
-            return [true, 'Operación exitosa', $response, 200];
+            $pagination->data = $new_data;
+            return [true, 'Operación exitosa', $pagination, 200];
         } catch (\Throwable $th) {
             $status_code = $th->getCode();
             if($status_code != 500) {
@@ -71,25 +73,10 @@ class ClientRepository implements IClient
 {
     try {
         $realm = $data['realm'];
-        $clientId = $data['clientId'];
-        unset($data['realm']);
-
-        // Crear el cliente
-        $clientRepresentation = ClientRepresentation::from($data);
-        KeycloakAdmin::clients()->import($realm, $clientRepresentation);
-
-        // Buscar el cliente recién creado usando su clientId
-       /*  $clients = KeycloakAdmin::clients()->all($realm, [
-            'clientId' => $clientId
-        ]);
-
-        if (empty($clients)) {
-            return [false, 'El cliente fue creado, pero no se pudo recuperar.', null, 404];
-        }
-
-        $createdClient = $clients[0]; // Primer coincidencia */
-
-        return [true, 'Cliente creado exitosamente.', null, 201];
+        $client_data = $this->clientData($realm, $data);
+        $clientRepresentation = ClientRepresentation::from($client_data);
+        $client = KeycloakAdmin::clients()->import($realm, $clientRepresentation);
+        return [true, 'Cliente creado exitosamente.', new ClientResource($client), 201];
 
     } catch (\Throwable $th) {
         $status_code = $th->getCode();
@@ -114,7 +101,7 @@ class ClientRepository implements IClient
                     $message = 'Conflicto. Ya existe un cliente con ese clientId.';
                     break;
                 case 404:
-                    $message = 'Reino no encontrado.';
+                    $message = 'Cliente no encontrado.';
                     break;
             }
         }
@@ -158,6 +145,45 @@ class ClientRepository implements IClient
             Log::error('Error al actualizar cliente: ' . $th->getMessage());
             return [false, 'Error en el servidor al actualizar cliente.', null, $status_code];
         }
+    }
+
+
+    public function clientData(string $realm, array $data) : array
+    {
+        /* if(isset($data['attributes'])){
+            $attributes = array();
+            foreach ($data['attributes'] as $attribute) {
+                $attributes[] = [
+                    'saml_idp_initiated_sso_url_name' => '',
+                    'standard.token.exchange.enabled' => false,
+                    'oauth2.device.authorization.grant.enabled'=> false,
+                    'oidc.ciba.grant.enabled' => false,
+                    'post.logout.redirect.uris' => $attribute['post_logout_redirect_uris']
+                ];
+            }
+        } */
+       return [
+            'protocol' => $data['protocol'],
+            'clientId' => $data['client_id'],
+            'name' => $data['name'],
+            'description' => $data['description'],
+
+            'publicClient' => false,//$data['public_client'],
+            'authorizationServicesEnabled' => false,//$data['authorization_services_enabled'],
+            'serviceAccountsEnabled' => true, //$data['service_accounts_enabled'],
+            'implicitFlowEnabled' => false,// $data['implicit_flow_enabled'],
+            'directAccessGrantsEnabled' => false, //$data['direct_access_grants_enabled'],
+            'standardFlowEnabled' => true,//$data['standard_Flow_enabled'],
+            'frontchannelLogout' => true,//$data['frontchannel_logout']
+            'alwaysDisplayInConsole' => false,//$data['always_display_in_console'],
+
+            'rootUrl' => $data['root_url'] ?? null,
+            'baseUrl' => $data['base_url'] ?? null,
+
+            'redirectUris' => $data['redirect_uris'] ?? null,
+            'webOrigins' => $data['web_origins'] ?? null,
+            'attributes' => $data['attributes'] ?? null,
+        ];
     }
 
 

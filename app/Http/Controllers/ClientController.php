@@ -29,15 +29,15 @@ class ClientController extends Controller
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="limit",
+     *         name="page_size",
      *         in="query",
-     *         description="Limite de registros por lista de usuarios o paginado",
+     *         description="Tamaño del paginado",
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="offset",
+     *         name="page",
      *         in="query",
-     *         description="Inicio de la lista de usuarios.",
+     *         description="Numero de Pagina.",
      *         required=true,
      *      ),
      *     @OA\Response(
@@ -108,27 +108,19 @@ class ClientController extends Controller
      *             required={"realm", "protocol", "clientId", "name", "publicClient", "authorizationServicesEnabled", "serviceAccountsEnabled", "implicitFlowEnabled", "directAccessGrantsEnabled", "standardFlowEnabled", "frontchannelLogout", "alwaysDisplayInConsole", "rootUrl", "baseUrl", "redirectUris", "webOrigins", "attributes"},
      *             @OA\Property(property="realm", type="string", example="mi-reino"),
      *             @OA\Property(property="protocol", type="string", example="openid-connect"),
-     *             @OA\Property(property="clientId", type="string", example="test-client"),
+     *             @OA\Property(property="client_id", type="string", example="test-client"),
      *             @OA\Property(property="name", type="string", example="test-client"),
      *             @OA\Property(property="description", type="string", example="Cliente de prueba"),
-     *             @OA\Property(property="publicClient", type="boolean", example=false),
-     *             @OA\Property(property="authorizationServicesEnabled", type="boolean", example=false),
-     *             @OA\Property(property="serviceAccountsEnabled", type="boolean", example=true),
-     *             @OA\Property(property="implicitFlowEnabled", type="boolean", example=false),
-     *             @OA\Property(property="directAccessGrantsEnabled", type="boolean", example=false),
-     *             @OA\Property(property="standardFlowEnabled", type="boolean", example=true),
-     *             @OA\Property(property="frontchannelLogout", type="boolean", example=true),
-     *             @OA\Property(property="alwaysDisplayInConsole", type="boolean", example=false),
-     *             @OA\Property(property="rootUrl", type="string", format="url", example="http://mi-app.test"),
-     *             @OA\Property(property="baseUrl", type="string", format="url", example="http://mi-app.test"),
+     *             @OA\Property(property="root_url", type="string", format="url", example="http://mi-app.test"),
+     *             @OA\Property(property="base_url", type="string", format="url", example="http://mi-app.test"),
      *             @OA\Property(
-     *                 property="redirectUris",
+     *                 property="redirect_uris",
      *                 type="array",
      *                 @OA\Items(type="string", format="url"),
      *                 example={"http://mi-app.test/login/keycloak/callback"}
      *             ),
      *             @OA\Property(
-     *                 property="webOrigins",
+     *                 property="web_origins",
      *                 type="array",
      *                 @OA\Items(type="string", format="url"),
      *                 example={"http://mi-app.test"}
@@ -136,11 +128,7 @@ class ClientController extends Controller
      *             @OA\Property(
      *                 property="attributes",
      *                 type="object",
-     *                 @OA\Property(property="saml_idp_initiated_sso_url_name", type="string", example=""),
-     *                 @OA\Property(property="standard.token.exchange.enabled", type="boolean", example=false),
-     *                 @OA\Property(property="oauth2.device.authorization.grant.enabled", type="boolean", example=false),
-     *                 @OA\Property(property="oidc.ciba.grant.enabled", type="boolean", example=false),
-     *                 @OA\Property(property="post.logout.redirect.uris", type="string", format="url", example="http://mi-app.test")
+     *                 @OA\Property(property="post_logout_redirect_uris", type="string", format="url", example="http://mi-app.test")
      *             )
      *         )
      *     ),
@@ -167,7 +155,6 @@ class ClientController extends Controller
     public function create(CreateClientRequest $request): JsonResponse
     {
         $data = $request->validated();
-        //dd($data);
         list($status, $message, $response, $code) = $this->client_repository->createClient($data);
         if(!$status) return Response::error($status, $message, $code);
         return Response::success($status, $message, $response, $code);

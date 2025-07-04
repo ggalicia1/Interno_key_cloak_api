@@ -21,15 +21,15 @@
                         "required": true
                     },
                     {
-                        "name": "limit",
+                        "name": "page_size",
                         "in": "query",
-                        "description": "Limite de registros por lista de usuarios o paginado",
+                        "description": "Tamaño del paginado",
                         "required": true
                     },
                     {
-                        "name": "offset",
+                        "name": "page",
                         "in": "query",
-                        "description": "Inicio de la lista de usuarios.",
+                        "description": "Numero de Pagina.",
                         "required": true
                     }
                 ],
@@ -150,7 +150,7 @@
                                         "type": "string",
                                         "example": "openid-connect"
                                     },
-                                    "clientId": {
+                                    "client_id": {
                                         "type": "string",
                                         "example": "test-client"
                                     },
@@ -162,49 +162,17 @@
                                         "type": "string",
                                         "example": "Cliente de prueba"
                                     },
-                                    "publicClient": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "authorizationServicesEnabled": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "serviceAccountsEnabled": {
-                                        "type": "boolean",
-                                        "example": true
-                                    },
-                                    "implicitFlowEnabled": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "directAccessGrantsEnabled": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "standardFlowEnabled": {
-                                        "type": "boolean",
-                                        "example": true
-                                    },
-                                    "frontchannelLogout": {
-                                        "type": "boolean",
-                                        "example": true
-                                    },
-                                    "alwaysDisplayInConsole": {
-                                        "type": "boolean",
-                                        "example": false
-                                    },
-                                    "rootUrl": {
+                                    "root_url": {
                                         "type": "string",
                                         "format": "url",
                                         "example": "http://mi-app.test"
                                     },
-                                    "baseUrl": {
+                                    "base_url": {
                                         "type": "string",
                                         "format": "url",
                                         "example": "http://mi-app.test"
                                     },
-                                    "redirectUris": {
+                                    "redirect_uris": {
                                         "type": "array",
                                         "items": {
                                             "type": "string",
@@ -214,7 +182,7 @@
                                             "http://mi-app.test/login/keycloak/callback"
                                         ]
                                     },
-                                    "webOrigins": {
+                                    "web_origins": {
                                         "type": "array",
                                         "items": {
                                             "type": "string",
@@ -226,23 +194,7 @@
                                     },
                                     "attributes": {
                                         "properties": {
-                                            "saml_idp_initiated_sso_url_name": {
-                                                "type": "string",
-                                                "example": ""
-                                            },
-                                            "standard.token.exchange.enabled": {
-                                                "type": "boolean",
-                                                "example": false
-                                            },
-                                            "oauth2.device.authorization.grant.enabled": {
-                                                "type": "boolean",
-                                                "example": false
-                                            },
-                                            "oidc.ciba.grant.enabled": {
-                                                "type": "boolean",
-                                                "example": false
-                                            },
-                                            "post.logout.redirect.uris": {
+                                            "post_logout_redirect_uris": {
                                                 "type": "string",
                                                 "format": "url",
                                                 "example": "http://mi-app.test"
@@ -667,15 +619,15 @@
                         "required": true
                     },
                     {
-                        "name": "limit",
+                        "name": "page_size",
                         "in": "query",
-                        "description": "Limite de registros por lista de usuarios o paginado",
+                        "description": "Tamaño del paginado",
                         "required": true
                     },
                     {
-                        "name": "offset",
+                        "name": "page",
                         "in": "query",
-                        "description": "Inicio de la lista de usuarios.",
+                        "description": "Numero de Pagina.",
                         "required": true
                     }
                 ],
@@ -1261,18 +1213,16 @@
                         "example": "Interno"
                     },
                     {
-                        "name": "limit",
+                        "name": "page_size",
                         "in": "query",
-                        "description": "Limite de registros por lista de usuarios o paginado",
-                        "required": true,
-                        "example": "10"
+                        "description": "Tamaño del paginado",
+                        "required": true
                     },
                     {
-                        "name": "offset",
+                        "name": "page",
                         "in": "query",
-                        "description": "Inicio de la lista de usuarios.",
-                        "required": true,
-                        "example": "0"
+                        "description": "Numero de Pagina.",
+                        "required": true
                     },
                     {
                         "name": "search",

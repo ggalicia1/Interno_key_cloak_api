@@ -5,6 +5,7 @@ namespace App\Repository\User;
 use App\Contracts\User\IUser;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Paginate\GeneratePagination;
 use Illuminate\Support\Facades\Log;
 use Overtrue\Keycloak\Collection\CredentialCollection;
 use Overtrue\Keycloak\Representation\Credential;
@@ -26,15 +27,17 @@ class UserRepository implements IUser
     public function users(array $request) : array
     {
         try {
-            $realm = $request['realm'] ?? 'Interno';
+            $realm = $request['realm'] ?? 'Interno';/*
             $limit = isset($request['limit']) ? (int)$request['limit'] : 10;
-            $offset = isset($request['offset']) ? (int)$request['offset'] : 0;
+            $offset = isset($request['offset']) ? (int)$request['offset'] : 0; */
 
 
             $total = KeycloakAdmin::users()->count($realm, ['enabled' => true]);
+            $pagination = GeneratePagination::pagination($request, $total);
+            $pagination->total_page = ceil($pagination->total / $pagination->page_size);
             $users = KeycloakAdmin::users()->all($realm, [
-                                                            'max' => $limit,
-                                                            'first' => $offset,
+                                                            'max' => $pagination->page_size,
+                                                            'first' => $pagination->page_index,
                                                             'enabled' => true,
                                                         ]);
             if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
@@ -43,13 +46,9 @@ class UserRepository implements IUser
             foreach ($users as $user) {
                 $data [] = new UserResource($user);
             }
-            $response = [
-                'limit' => $limit,
-                'offset' => $offset,
-                'total' => $total,
-                'date' => $users
-            ];
-            return [true, 'Operación exitosa', $response, 200];
+
+            $pagination->data = $data;
+            return [true, 'Operación exitosa', $pagination, 200];
         } catch (\Throwable $th) {
             //throw $th;
             Log::error('Error al obtener lista de usuarios: ' . $th->getMessage());
@@ -132,34 +131,21 @@ class UserRepository implements IUser
     public function search(array $data): array
     {
         try {
-            $realm = $data['realm'] ? $data['realm'] : 'Interno';
-            if(isset($data['limit'])){
-                $limit = $data['limit'];
-                $offset = $data['offset'];
-            }else{
-                $limit = 10; // cantidad de usuarios por página
-                $offset = 0; // desplazamiento inicial
-            }
-
-            $users = KeycloakAdmin::users()->search($realm, [
-                                                            'max' => $limit,
-                                                            'first' => $offset,
+            $pagination = GeneratePagination::pagination($data, null);
+            $users = KeycloakAdmin::users()->search($data['realm'], [
+                                                            'max' => $pagination->page_size,
+                                                            'first' => $pagination->page_index,
                                                             'enabled' => true,
                                                             'search' => $data['search'],
-
                                                             ]);
 
             if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
-            $new_date = [];
+            $new_data = [];
             foreach ($users as $user) {
-                $new_data = new UserResource($user);
+                $new_data [] = new UserResource($user);
             }
-            $response = [
-                'limit' => $limit,
-                'offset' => $offset,
-                'date' => $new_data
-            ];
-            return [true, 'Operación exitosa', $response, 200];
+            $pagination->data = $new_data;
+            return [true, 'Operación exitosa', $pagination, 200];
         } catch (\Exception $th) {
             $status_code = $th->getCode();
             if($status_code != 500) {

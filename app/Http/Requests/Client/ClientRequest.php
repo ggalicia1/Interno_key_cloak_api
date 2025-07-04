@@ -23,8 +23,8 @@ class ClientRequest extends FormRequest
     {
         return [
             'realm' => 'required|string',
-            'limit' => 'required|integer',
-            'offset' => 'required|integer',
+            'page_size' => 'required|integer',
+            'page' => 'required|integer',
         ];
     }
 }

@@ -36,15 +36,15 @@ class UserController extends Controller
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="limit",
+     *         name="page_size",
      *         in="query",
-     *         description="Limite de registros por lista de usuarios o paginado",
+     *         description="Tamaño del paginado",
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="offset",
+     *         name="page",
      *         in="query",
-     *         description="Inicio de la lista de usuarios.",
+     *         description="Numero de Pagina.",
      *         required=true,
      *      ),
      *     @OA\Response(
@@ -374,18 +374,16 @@ class UserController extends Controller
      *         example="Interno",
      *      ),
      *      @OA\Parameter(
-     *         name="limit",
+     *         name="page_size",
      *         in="query",
-     *         description="Limite de registros por lista de usuarios o paginado",
+     *         description="Tamaño del paginado",
      *         required=true,
-     *         example="10",
      *      ),
      *      @OA\Parameter(
-     *         name="offset",
+     *         name="page",
      *         in="query",
-     *         description="Inicio de la lista de usuarios.",
+     *         description="Numero de Pagina.",
      *         required=true,
-     *         example="0",
      *      ),
      *      @OA\Parameter(
      *         name="search",

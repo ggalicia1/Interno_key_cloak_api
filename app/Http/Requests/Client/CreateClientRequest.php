@@ -21,39 +21,39 @@ class CreateClientRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+
         return [
             'realm' => 'required|string',
 
             'protocol' => 'required|string|in:openid-connect',
-            'clientId' => 'required|string|max:255',
+            'client_id' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'required|string|max:1000',
 
-            'publicClient' => 'required|boolean',
-            'authorizationServicesEnabled' => 'required|boolean',
-            'serviceAccountsEnabled' => 'required|boolean',
-            'implicitFlowEnabled' => 'required|boolean',
-            'directAccessGrantsEnabled' => 'required|boolean',
-            'standardFlowEnabled' => 'required|boolean',
-            'frontchannelLogout' => 'required|boolean',
-            'alwaysDisplayInConsole' => 'required|boolean',
+            //'public_client' => 'required|boolean',
+            //'authorization_services_enabled' => 'required|boolean',
+            //'service_accounts_enabled' => 'required|boolean',
+            //'implicit_flow_enabled' => 'required|boolean',
+            //'direct_access_grants_enabled' => 'required|boolean',
+            //'standard_Flow_enabled' => 'required|boolean',
+            //'frontchannel_logout' => 'required|boolean',
+            //'always_display_in_console' => 'required|boolean',
 
-            'rootUrl' => 'required|url',
-            'baseUrl' => 'required|url',
+            'root_url' => 'required|url',
+            'base_url' => 'required|url',
 
-            'redirectUris' => 'required|array',
-            'redirectUris.*' => 'string|url',
+            'redirect_uris' => 'required|array',
+            'redirect_uris.*' => 'string|url',
 
-            'webOrigins' => 'required|array',
-            'webOrigins.*' => 'string|url',
+            'web_origins' => 'required|array',
+            'web_origins.*' => 'string|url',
 
             'attributes' => 'required|array',
-            'attributes.saml_idp_initiated_sso_url_name' => 'nullable|string',
-            /* 'attributes.standard.token.exchange.enabled' => 'required|boolean',
-            'attributes.oauth2.device.authorization.grant.enabled' => 'required|boolean',
-            'attributes.oidc.ciba.grant.enabled' => 'required|boolean',
-            'attributes.post.logout.redirect.uris' => 'required|string|url' */
+            //'attributes.saml_idp_initiated_sso_url_name' => 'nullable|string',
+            //'attributes.standard.token.exchange.enabled' => 'required|boolean',
+            //'attributes.oauth2.device.authorization.grant.enabled' => 'required|boolean',
+            //'attributes.oidc.ciba.grant.enabled' => 'required|boolean',
+            'attributes.post_logout_redirect_uris' => 'required|string|url'
 
 
 
