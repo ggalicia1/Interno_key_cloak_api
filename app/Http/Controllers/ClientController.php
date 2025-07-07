@@ -168,77 +168,77 @@ class ClientController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"realm", "client_id"},
+     *             required={"realm", "client_uuid"},
      *             @OA\Property(property="realm", type="string", example="mi-reino"),
-     *             @OA\Property(property="client_id", type="string", example="b17ccfa3-8d0d-4ac7-912d-3c71f0c9d5e2"),
+     *             @OA\Property(property="client_uuid", type="string", example="b17ccfa3-8d0d-4ac7-912d-3c71f0c9d5e2"),
 
-    *             @OA\Property(property="clientId", type="string", example="nuevo-client-id"),
-    *             @OA\Property(property="name", type="string", example="Nuevo Nombre del Cliente"),
-    *             @OA\Property(property="description", type="string", example="Descripción actualizada del cliente"),
+     *             @OA\Property(property="client_id", type="string", example="nuevo-client-id"),
+     *             @OA\Property(property="name", type="string", example="Nuevo Nombre del Cliente"),
+     *             @OA\Property(property="description", type="string", example="Descripción actualizada del cliente"),
 
-    *             @OA\Property(property="protocol", type="string", example="openid-connect"),
-    *             @OA\Property(property="publicClient", type="boolean", example=false),
-    *             @OA\Property(property="authorizationServicesEnabled", type="boolean", example=true),
-    *             @OA\Property(property="serviceAccountsEnabled", type="boolean", example=true),
-    *             @OA\Property(property="implicitFlowEnabled", type="boolean", example=false),
-    *             @OA\Property(property="directAccessGrantsEnabled", type="boolean", example=true),
-    *             @OA\Property(property="standardFlowEnabled", type="boolean", example=true),
-    *             @OA\Property(property="frontchannelLogout", type="boolean", example=true),
-    *             @OA\Property(property="alwaysDisplayInConsole", type="boolean", example=true),
+     *             @OA\Property(property="protocol", type="string", example="openid-connect"),
+     *             @OA\Property(property="public_client", type="boolean", example=false),
+     *             @OA\Property(property="authorization_services_enabled", type="boolean", example=true),
+     *             @OA\Property(property="service_accounts_enabled", type="boolean", example=true),
+     *             @OA\Property(property="implicit_flow_enabled", type="boolean", example=false),
+     *             @OA\Property(property="direct_access_grants_enabled", type="boolean", example=true),
+     *             @OA\Property(property="standard_alow_enabled", type="boolean", example=true),
+     *             @OA\Property(property="frontchannel_logout", type="boolean", example=true),
+     *             @OA\Property(property="always_display_in_console", type="boolean", example=true),
 
-    *             @OA\Property(property="enabled", type="boolean", example=true),
-    *             @OA\Property(property="consentRequired", type="boolean", example=false),
-    *             @OA\Property(property="fullScopeAllowed", type="boolean", example=true),
+     *             @OA\Property(property="enabled", type="boolean", example=true),
+     *             @OA\Property(property="consent_required", type="boolean", example=false),
+     *             @OA\Property(property="full_scope_allowed", type="boolean", example=true),
 
-    *             @OA\Property(property="clientAuthenticatorType", type="string", example="client-secret"),
-    *             @OA\Property(property="rootUrl", type="string", format="url", example="http://mi-app.test"),
-    *             @OA\Property(property="baseUrl", type="string", format="url", example="http://mi-app.test"),
-    *             @OA\Property(property="adminUrl", type="string", format="url", example="http://mi-app.test/admin"),
-    *             @OA\Property(property="origin", type="string", example="http://mi-app.test"),
+     *             @OA\Property(property="client_authenticator_type", type="string", example="client-secret"),
+     *             @OA\Property(property="root_url", type="string", format="url", example="http://mi-app.test"),
+     *             @OA\Property(property="base_url", type="string", format="url", example="http://mi-app.test"),
+     *             @OA\Property(property="admin_url", type="string", format="url", example="http://mi-app.test/admin"),
+     *             @OA\Property(property="origin", type="string", example="http://mi-app.test"),
 
-    *             @OA\Property(
-    *                 property="redirectUris",
-    *                 type="array",
-    *                 @OA\Items(type="string", format="url"),
-    *                 example={"http://mi-app.test/login/callback"}
-    *             ),
-    *             @OA\Property(
-    *                 property="webOrigins",
-    *                 type="array",
-    *                 @OA\Items(type="string", format="url"),
-    *                 example={"http://mi-app.test"}
-    *             ),
+     *             @OA\Property(
+     *                 property="redirect_uris",
+     *                 type="array",
+     *                 @OA\Items(type="string", format="url"),
+     *                 example={"http://mi-app.test/login/callback"}
+     *             ),
+     *             @OA\Property(
+     *                 property="web_origins",
+     *                 type="array",
+     *                 @OA\Items(type="string", format="url"),
+     *                 example={"http://mi-app.test"}
+     *             ),
 
-    *             @OA\Property(
-    *                 property="attributes",
-    *                 type="object",
-    *                 @OA\Property(property="saml_idp_initiated_sso_url_name", type="string", example=""),
-    *                 @OA\Property(property="standard.token.exchange.enabled", type="boolean", example=false),
-    *                 @OA\Property(property="oauth2.device.authorization.grant.enabled", type="boolean", example=false),
-    *                 @OA\Property(property="oidc.ciba.grant.enabled", type="boolean", example=false),
-    *                 @OA\Property(property="post.logout.redirect.uris", type="string", format="url", example="http://mi-app.test/logout")
-    *             )
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Cliente actualizado correctamente",
-    *         @OA\JsonContent(
-    *             @OA\Property(property="status", type="boolean", example=true),
-    *             @OA\Property(property="message", type="string", example="Cliente actualizado exitosamente."),
-    *             @OA\Property(property="data", type="object")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=400,
-    *         description="Error de validación o datos inválidos"
-    *     ),
-    *     @OA\Response(
-    *         response=500,
-    *         description="Error interno del servidor"
-    *     )
-    * )
-    */
+     *             @OA\Property(
+     *                 property="attributes",
+     *                 type="object",
+     *                 @OA\Property(property="saml_idp_initiated_sso_url_name", type="string", example=""),
+     *                 @OA\Property(property="standard_token_exchange_enabled", type="boolean", example=false),
+     *                 @OA\Property(property="oauth2_device_authorization_grant_enabled", type="boolean", example=false),
+     *                 @OA\Property(property="oidc_ciba_grant_enabled", type="boolean", example=false),
+     *                 @OA\Property(property="post_logout_redirect_uris", type="string", format="url", example="http://mi-app.test/logout")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cliente actualizado correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Cliente actualizado exitosamente."),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación o datos inválidos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor"
+     *     )
+     * )
+     */
 
     public function update(UpdateClientRequest $request): JsonResponse
     {

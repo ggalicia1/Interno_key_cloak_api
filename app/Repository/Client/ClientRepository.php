@@ -15,8 +15,6 @@ class ClientRepository implements IClient
 
     public function clients(array $data) : array
     {
-        /* $pagination = GeneratePagination::pagination($data);
-        dd($pagination); */
         try {
 
             $realm = $data['realm'];
@@ -44,8 +42,6 @@ class ClientRepository implements IClient
             }
             Log::error('Error al obtener lista de clientes: ' . $th->getMessage());
             return [false, 'Error en el servidor no se pudo realizar la consulta.', null, $status_code];
-
-
         }
     }
 
@@ -70,72 +66,74 @@ class ClientRepository implements IClient
     }
 
     public function createClient(array $data): array
-{
-    try {
-        $realm = $data['realm'];
-        $client_data = $this->clientData($realm, $data);
-        $clientRepresentation = ClientRepresentation::from($client_data);
-        $client = KeycloakAdmin::clients()->import($realm, $clientRepresentation);
-        return [true, 'Cliente creado exitosamente.', new ClientResource($client), 201];
+    {
+        try {
+            $realm = $data['realm'];
+            $client_data = $this->clientData($realm, $data);
+            $clientRepresentation = ClientRepresentation::from($client_data);
+            $client = KeycloakAdmin::clients()->import($realm, $clientRepresentation);
+            return [true, 'Cliente creado exitosamente.', new ClientResource($client), 201];
 
-    } catch (\Throwable $th) {
-        $status_code = $th->getCode();
-        $message = 'Error inesperado al crear cliente.';
-        $responseBody = null;
+        } catch (\Throwable $th) {
+            $status_code = $th->getCode();
+            $message = 'Error inesperado al crear cliente.';
+            $responseBody = null;
 
-        if (method_exists($th, 'getResponse') && $th->getResponse()) {
-            $response = $th->getResponse();
-            $responseBody = json_decode($response->getBody()->getContents(), true);
+            if (method_exists($th, 'getResponse') && $th->getResponse()) {
+                $response = $th->getResponse();
+                $responseBody = json_decode($response->getBody()->getContents(), true);
 
-            switch ($status_code) {
-                case 400:
-                    $message = 'Datos inválidos enviados a Keycloak.';
-                    break;
-                case 401:
-                    $message = 'No autorizado. Verifica las credenciales de Keycloak.';
-                    break;
-                case 403:
-                    $message = 'Prohibido. No tienes permisos para crear clientes.';
-                    break;
-                case 409:
-                    $message = 'Conflicto. Ya existe un cliente con ese clientId.';
-                    break;
-                case 404:
-                    $message = 'Cliente no encontrado.';
-                    break;
+                switch ($status_code) {
+                    case 400:
+                        $message = 'Datos inválidos enviados a Keycloak.';
+                        break;
+                    case 401:
+                        $message = 'No autorizado. Verifica las credenciales de Keycloak.';
+                        break;
+                    case 403:
+                        $message = 'Prohibido. No tienes permisos para crear clientes.';
+                        break;
+                    case 409:
+                        $message = 'Conflicto. Ya existe un cliente con ese clientId.';
+                        break;
+                    case 404:
+                        $message = 'Cliente no encontrado.';
+                        break;
+                }
             }
+
+            Log::error("Error al crear cliente: {$th->getMessage()} - Código: {$status_code}");
+
+            return [
+                false,
+                $message,
+                $responseBody,
+                ($status_code >= 400 && $status_code < 600) ? $status_code : 500
+            ];
         }
-
-        Log::error("Error al crear cliente: {$th->getMessage()} - Código: {$status_code}");
-
-        return [
-            false,
-            $message,
-            $responseBody,
-            ($status_code >= 400 && $status_code < 600) ? $status_code : 500
-        ];
     }
-}
 
 
 
     public function updateClient(array $data): array
     {
+
         try {
             $realm = $data['realm'];
-            $clientUuid = $data['client_id'];
+            $client_uuid = $data['client_uuid'];
 
-            unset($data['realm'], $data['client_id']);
+            unset($data['realm'], $data['client_uuid']);
 
             $client = ClientRepresentation::from($data);
 
-            KeycloakAdmin::clients()->update($realm, $clientUuid, $client);
+            KeycloakAdmin::clients()->update($realm, $client_uuid, $client);
 
-            // importante: usar clientUuid directamente
-            $updated = KeycloakAdmin::clients()->get($realm, $clientUuid);
+
+            $updated = KeycloakAdmin::clients()->get($realm, $client_uuid);
 
             return [true, 'Cliente actualizado correctamente.', new ClientResource($updated), 200];
         } catch (\Throwable $th) {
+            dd($th);
             $status_code = $th->getCode();
             if ($status_code != 500 && method_exists($th, 'getResponse')) {
                 $response = ($th->getResponse());
@@ -150,18 +148,6 @@ class ClientRepository implements IClient
 
     public function clientData(string $realm, array $data) : array
     {
-        /* if(isset($data['attributes'])){
-            $attributes = array();
-            foreach ($data['attributes'] as $attribute) {
-                $attributes[] = [
-                    'saml_idp_initiated_sso_url_name' => '',
-                    'standard.token.exchange.enabled' => false,
-                    'oauth2.device.authorization.grant.enabled'=> false,
-                    'oidc.ciba.grant.enabled' => false,
-                    'post.logout.redirect.uris' => $attribute['post_logout_redirect_uris']
-                ];
-            }
-        } */
        return [
             'protocol' => $data['protocol'],
             'clientId' => $data['client_id'],

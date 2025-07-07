@@ -255,18 +255,18 @@
                             "schema": {
                                 "required": [
                                     "realm",
-                                    "client_id"
+                                    "client_uuid"
                                 ],
                                 "properties": {
                                     "realm": {
                                         "type": "string",
                                         "example": "mi-reino"
                                     },
-                                    "client_id": {
+                                    "client_uuid": {
                                         "type": "string",
                                         "example": "b17ccfa3-8d0d-4ac7-912d-3c71f0c9d5e2"
                                     },
-                                    "clientId": {
+                                    "client_id": {
                                         "type": "string",
                                         "example": "nuevo-client-id"
                                     },
@@ -282,35 +282,35 @@
                                         "type": "string",
                                         "example": "openid-connect"
                                     },
-                                    "publicClient": {
+                                    "public_client": {
                                         "type": "boolean",
                                         "example": false
                                     },
-                                    "authorizationServicesEnabled": {
+                                    "authorization_services_enabled": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "serviceAccountsEnabled": {
+                                    "service_accounts_enabled": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "implicitFlowEnabled": {
+                                    "implicit_flow_enabled": {
                                         "type": "boolean",
                                         "example": false
                                     },
-                                    "directAccessGrantsEnabled": {
+                                    "direct_access_grants_enabled": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "standardFlowEnabled": {
+                                    "standard_alow_enabled": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "frontchannelLogout": {
+                                    "frontchannel_logout": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "alwaysDisplayInConsole": {
+                                    "always_display_in_console": {
                                         "type": "boolean",
                                         "example": true
                                     },
@@ -318,29 +318,29 @@
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "consentRequired": {
+                                    "consent_required": {
                                         "type": "boolean",
                                         "example": false
                                     },
-                                    "fullScopeAllowed": {
+                                    "full_scope_allowed": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "clientAuthenticatorType": {
+                                    "client_authenticator_type": {
                                         "type": "string",
                                         "example": "client-secret"
                                     },
-                                    "rootUrl": {
+                                    "root_url": {
                                         "type": "string",
                                         "format": "url",
                                         "example": "http://mi-app.test"
                                     },
-                                    "baseUrl": {
+                                    "base_url": {
                                         "type": "string",
                                         "format": "url",
                                         "example": "http://mi-app.test"
                                     },
-                                    "adminUrl": {
+                                    "admin_url": {
                                         "type": "string",
                                         "format": "url",
                                         "example": "http://mi-app.test/admin"
@@ -349,7 +349,7 @@
                                         "type": "string",
                                         "example": "http://mi-app.test"
                                     },
-                                    "redirectUris": {
+                                    "redirect_uris": {
                                         "type": "array",
                                         "items": {
                                             "type": "string",
@@ -359,7 +359,7 @@
                                             "http://mi-app.test/login/callback"
                                         ]
                                     },
-                                    "webOrigins": {
+                                    "web_origins": {
                                         "type": "array",
                                         "items": {
                                             "type": "string",
@@ -375,19 +375,19 @@
                                                 "type": "string",
                                                 "example": ""
                                             },
-                                            "standard.token.exchange.enabled": {
+                                            "standard_token_exchange_enabled": {
                                                 "type": "boolean",
                                                 "example": false
                                             },
-                                            "oauth2.device.authorization.grant.enabled": {
+                                            "oauth2_device_authorization_grant_enabled": {
                                                 "type": "boolean",
                                                 "example": false
                                             },
-                                            "oidc.ciba.grant.enabled": {
+                                            "oidc_ciba_grant_enabled": {
                                                 "type": "boolean",
                                                 "example": false
                                             },
-                                            "post.logout.redirect.uris": {
+                                            "post_logout_redirect_uris": {
                                                 "type": "string",
                                                 "format": "url",
                                                 "example": "http://mi-app.test/logout"

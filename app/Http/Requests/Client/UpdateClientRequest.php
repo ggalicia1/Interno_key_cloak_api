@@ -23,57 +23,61 @@ class UpdateClientRequest extends FormRequest
     {
         return [
             'realm' => 'required|string',
-            'client_id' => 'required|string', // UUID interno de Keycloak
+            'client_uuid' => 'required|string', // UUID interno de Keycloak
 
-            'clientId' => 'sometimes|string|max:255',
+            'client_id' => 'sometimes|string|max:255',
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string|max:1000',
             'enabled' => 'sometimes|boolean',
-            'publicClient' => 'sometimes|boolean',
-            'bearerOnly' => 'sometimes|boolean',
+            'public_client' => 'sometimes|boolean',
+            'bearer_only' => 'sometimes|boolean',
             'secret' => 'nullable|string|max:255',
             'rootUrl' => 'nullable|url',
             'baseUrl' => 'nullable|url',
             'adminUrl' => 'nullable|url',
 
-            'redirectUris' => 'nullable|array',
-            'redirectUris.*' => 'string',
+            'redirect_uris' => 'nullable|array',
+            'redirect_uris.*' => 'string',
 
-            'webOrigins' => 'nullable|array',
-            'webOrigins.*' => 'string',
+            'web_origins' => 'nullable|array',
+            'web_origins.*' => 'string',
 
             'protocol' => 'nullable|string|in:openid-connect,saml',
-            'clientAuthenticatorType' => 'nullable|string',
+            'client_authenticator_type' => 'nullable|string',
 
-            'consentRequired' => 'sometimes|boolean',
-            'standardFlowEnabled' => 'sometimes|boolean',
-            'implicitFlowEnabled' => 'sometimes|boolean',
-            'directAccessGrantsEnabled' => 'sometimes|boolean',
-            'serviceAccountsEnabled' => 'sometimes|boolean',
-            'authorizationServicesEnabled' => 'sometimes|boolean',
-            'frontchannelLogout' => 'sometimes|boolean',
-            'fullScopeAllowed' => 'sometimes|boolean',
+            'consent_required' => 'sometimes|boolean',
+            'standard_flow_enabled' => 'sometimes|boolean',
+            'implicit_flow_enabled' => 'sometimes|boolean',
+            'direct_access_grants_enabled' => 'sometimes|boolean',
+            'service_accounts_enabled' => 'sometimes|boolean',
+            'authorization_services_enabled' => 'sometimes|boolean',
+            'frontchannel_logout' => 'sometimes|boolean',
+            'full_scope_allowed' => 'sometimes|boolean',
 
-            'notBefore' => 'nullable|integer',
-            'nodeReRegistrationTimeout' => 'nullable|integer',
+            'not_before' => 'nullable|integer',
+            'node_re_registration_timeout' => 'nullable|integer',
             'origin' => 'nullable|string',
 
             'access' => 'nullable|array',
             'access.*' => 'boolean',
 
             'attributes' => 'nullable|array',
-            'attributes.*' => 'string',
+            /* 'attributes.*.saml_idp_initiated_sso_url_name' => 'string',
+            'attributes.*.standard_token_exchange_enabled' => 'string',
+            'attributes.*.oauth2_device_authorization_grant_enabled' => 'string',
+            'attributes.*.oidc_ciba_grant_enabled' => 'string',
+            'attributes.*.post_logout_redirect_uris' => 'string', */
 
-            'authenticationFlowBindingOverrides' => 'nullable|array',
-            'authenticationFlowBindingOverrides.*' => 'string',
+            'authentication_flow_binding_overrides' => 'nullable|array',
+            'authentication_flow_binding_overrides.*' => 'string',
 
-            'defaultClientScopes' => 'nullable|array',
-            'defaultClientScopes.*' => 'string',
+            'default_client_scopes' => 'nullable|array',
+            'default_client_scopes.*' => 'string',
 
-            'optionalClientScopes' => 'nullable|array',
-            'optionalClientScopes.*' => 'string',
+            'optional_client_scopes' => 'nullable|array',
+            'optional_client_scopes.*' => 'string',
 
-            'surrogateAuthRequired' => 'sometimes|boolean',
+            'surrogate_auth_aequired' => 'sometimes|boolean',
 
             // Nota: puedes extender aquí si trabajas con authorizationSettings o protocolMappers
         ];
