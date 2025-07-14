@@ -27,9 +27,7 @@ class UserRepository implements IUser
     public function users(array $request) : array
     {
         try {
-            $realm = $request['realm'] ?? 'Interno';/*
-            $limit = isset($request['limit']) ? (int)$request['limit'] : 10;
-            $offset = isset($request['offset']) ? (int)$request['offset'] : 0; */
+            $realm = $request['realm'] ?? 'Interno';
 
 
             $total = KeycloakAdmin::users()->count($realm, ['enabled' => true]);

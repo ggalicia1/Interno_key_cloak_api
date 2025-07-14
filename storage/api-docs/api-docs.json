@@ -2016,6 +2016,267 @@
                     }
                 }
             }
+        },
+        "/api/users/clients/roles": {
+            "get": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Obtiene lista de roles por un usuario.",
+                "operationId": "0d49e7c80ee7141b893e7d150a1a45fa",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reina",
+                        "required": true
+                    },
+                    {
+                        "name": "user_uuid",
+                        "in": "query",
+                        "description": "Uuid del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Uuid del cliente",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/clients/assign-role": {
+            "post": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Asignar un rol de cliente a un usuario.",
+                "description": "Endpoint para asignar el rol de cliente a un usuario.",
+                "operationId": "8ee7ce4f923b4940cc6cf6d0fec11c7e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "user_uuid",
+                                    "client_uuid",
+                                    "role_name"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "Interno"
+                                    },
+                                    "user_uuid": {
+                                        "type": "string",
+                                        "example": "8b692f22-acb8-4944-9c2f-aec21c4da809"
+                                    },
+                                    "client_uuid": {
+                                        "type": "string",
+                                        "example": "1c742755-b30d-44a4-8b4b-4a60d6059a27"
+                                    },
+                                    "role_name": {
+                                        "type": "boolean",
+                                        "example": "Técnico de administración"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}": {
+            "delete": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Eliminar usuario a un grupo.",
+                "description": "Endpoint para Eliminar un asuario a un grupo.",
+                "operationId": "3ec7910ca2b27e94c737a4b6825f6ae5",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "path",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "role_name",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
@@ -2038,6 +2299,10 @@
         {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "User Role",
+            "description": "User Role"
         }
     ]
 }

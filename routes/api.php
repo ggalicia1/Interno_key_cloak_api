@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientRolesController;
 use App\Http\Controllers\KeyCloakController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,11 +23,18 @@ Route::prefix('users')->group(function(){
     Route::get('search', [UserController::class, 'search']);
     Route::get('retrieve-realm-roles', [UserController::class, 'retrieveRealmRoles']);
 
-    Route::post('role-assign', [UserController::class, 'roleAssign']);
-
     Route::put('join-group/{realm}/{user_id}/{group_id}', [UserController::class, 'joinGroup']);
     Route::delete('leave-group/{realm}/{user_id}/{group_id}', [UserController::class, 'leaveGroup']);
     Route::get('retrieve-groups', [UserController::class, 'retrieveGroups']);
+});
+
+Route::prefix('users')->group(function(){
+    Route::prefix('clients')->group(function(){
+        Route::get('roles', [UserRoleController::class, 'roles']);
+        Route::post('assign-role', [UserRoleController::class, 'assignRole']);
+        Route::delete('remove-role/{realm}/{user_id}/{client_uuid}/{role_name}', [UserRoleController::class, 'removeRole']);
+    });
+
 });
 
 Route::prefix('clients')->controller(ClientController::class)->group(function(){
