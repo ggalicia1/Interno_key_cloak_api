@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientRolesController;
 use App\Http\Controllers\KeyCloakController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -30,10 +31,19 @@ Route::prefix('users')->group(function(){
 
 Route::prefix('clients')->controller(ClientController::class)->group(function(){
     Route::get('', 'clients');
+    Route::get('{realm}/catalog', 'clientsTypeCatalog');
     Route::get('client-by-id', 'clientById');
     Route::post('create', [ClientController::class, 'create']);
     Route::put('update', [ClientController::class, 'update']);
+    Route::delete('delete', 'deleteClient');
 
+});
+Route::prefix('clients/roles')->controller(ClientRolesController::class)->group(function(){
+    Route::get('', 'clientRoles');
+    Route::get('/role-by-name', 'clientRoleByName');
+    Route::post('create', 'createClientRole');
+    Route::put('update', 'updateClientRole');
+    Route::delete('delete', 'deleteClientRole');
 });
 
 

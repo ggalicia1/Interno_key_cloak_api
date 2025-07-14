@@ -59,6 +59,35 @@ class ClientController extends Controller
         return Response::success($status, $message, $response, $code);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/clients/{realm}/catalog",
+     *     summary="Listar clientes del reino.",
+     *     tags={"Clients"},
+     *      @OA\Parameter(
+     *         name="realm",
+     *         in="path",
+     *         description="Nombre del reino",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de roles",
+     *         @OA\JsonContent(type="array", @OA\Items(
+     *             @OA\Property(property="id", type="string"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *         ))
+     *     )
+     * )
+     */
+    public function clientsTypeCatalog(string $realm) : JsonResponse
+    {
+        list($status, $message, $response, $code) = $this->client_repository->clientsTypeCatalog($realm);
+        if(!$status) return Response::error($status, $message, $code);
+        return Response::success($status, $message, $response, $code);
+    }
+
 
     /**
      * @OA\Get(
@@ -72,7 +101,7 @@ class ClientController extends Controller
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="client_id",
+     *         name="client_uuid",
      *         in="query",
      *         description="Id del client",
      *         required=true,
@@ -175,27 +204,12 @@ class ClientController extends Controller
      *             @OA\Property(property="client_id", type="string", example="nuevo-client-id"),
      *             @OA\Property(property="name", type="string", example="Nuevo Nombre del Cliente"),
      *             @OA\Property(property="description", type="string", example="Descripción actualizada del cliente"),
-
-     *             @OA\Property(property="protocol", type="string", example="openid-connect"),
-     *             @OA\Property(property="public_client", type="boolean", example=false),
-     *             @OA\Property(property="authorization_services_enabled", type="boolean", example=true),
-     *             @OA\Property(property="service_accounts_enabled", type="boolean", example=true),
-     *             @OA\Property(property="implicit_flow_enabled", type="boolean", example=false),
-     *             @OA\Property(property="direct_access_grants_enabled", type="boolean", example=true),
-     *             @OA\Property(property="standard_alow_enabled", type="boolean", example=true),
-     *             @OA\Property(property="frontchannel_logout", type="boolean", example=true),
-     *             @OA\Property(property="always_display_in_console", type="boolean", example=true),
-
      *             @OA\Property(property="enabled", type="boolean", example=true),
-     *             @OA\Property(property="consent_required", type="boolean", example=false),
-     *             @OA\Property(property="full_scope_allowed", type="boolean", example=true),
 
-     *             @OA\Property(property="client_authenticator_type", type="string", example="client-secret"),
      *             @OA\Property(property="root_url", type="string", format="url", example="http://mi-app.test"),
      *             @OA\Property(property="base_url", type="string", format="url", example="http://mi-app.test"),
      *             @OA\Property(property="admin_url", type="string", format="url", example="http://mi-app.test/admin"),
      *             @OA\Property(property="origin", type="string", example="http://mi-app.test"),
-
      *             @OA\Property(
      *                 property="redirect_uris",
      *                 type="array",
@@ -208,14 +222,9 @@ class ClientController extends Controller
      *                 @OA\Items(type="string", format="url"),
      *                 example={"http://mi-app.test"}
      *             ),
-
      *             @OA\Property(
      *                 property="attributes",
      *                 type="object",
-     *                 @OA\Property(property="saml_idp_initiated_sso_url_name", type="string", example=""),
-     *                 @OA\Property(property="standard_token_exchange_enabled", type="boolean", example=false),
-     *                 @OA\Property(property="oauth2_device_authorization_grant_enabled", type="boolean", example=false),
-     *                 @OA\Property(property="oidc_ciba_grant_enabled", type="boolean", example=false),
      *                 @OA\Property(property="post_logout_redirect_uris", type="string", format="url", example="http://mi-app.test/logout")
      *             )
      *         )
@@ -244,6 +253,59 @@ class ClientController extends Controller
     {
         $data = $request->validated();
         list($status, $message, $response, $code) = $this->client_repository->updateClient($data);
+        if(!$status) return Response::error($status, $message, $code);
+        return Response::success($status, $message, $response, $code);
+    }
+
+    /**
+     * @OA\Delete(
+     *      path="/api/clients/delete",
+     *      tags={"Clients"},
+     *      summary="Eliminar rol del cliente.",
+     *      description="Endpoint para Eliminar un rol cliente.",
+     *      security={{"bearer_token":{}}},
+     *      @OA\Parameter(
+     *         name="realm",
+     *         in="query",
+     *         description="Id del reino",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="client_uuid",
+     *         in="query",
+     *         description="Id del usuario",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Rol eliminado correctamente",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
+     *              @OA\Property(property="username", type="string", example="juanperez"),
+     *              @OA\Property(property="email", type="string", example="juan.perez@example.com")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Error en los datos enviados",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Datos inválidos")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Error interno del servidor",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Error interno")
+     *          )
+     *      )
+     *  )
+     */
+    public function deleteClient(ClientByIdRequest $request) : JsonResponse
+    {
+        $data = $request->validated();
+        list($status, $message, $response, $code) = $this->client_repository->deleteClient($data);
+        if(!$status && $response != null) return Response::errorMessage($status, $message, $response, $code);
         if(!$status) return Response::error($status, $message, $code);
         return Response::success($status, $message, $response, $code);
     }

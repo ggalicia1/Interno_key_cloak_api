@@ -32,9 +32,9 @@ class UpdateClientRequest extends FormRequest
             'public_client' => 'sometimes|boolean',
             'bearer_only' => 'sometimes|boolean',
             'secret' => 'nullable|string|max:255',
-            'rootUrl' => 'nullable|url',
-            'baseUrl' => 'nullable|url',
-            'adminUrl' => 'nullable|url',
+            'root_url' => 'nullable|url',
+            'base_url' => 'nullable|url',
+            'admin_url' => 'nullable|url',
 
             'redirect_uris' => 'nullable|array',
             'redirect_uris.*' => 'string',

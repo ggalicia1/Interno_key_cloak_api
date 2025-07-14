@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Client\Roles;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientByIdRequest extends FormRequest
+class RoleByNameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class ClientByIdRequest extends FormRequest
         return [
             'realm' => 'required|string',
             'client_uuid' => 'required|string',
-            'page_size'  => 'nullable|integer',
-            'page' => 'nullable|integer',
+            'role_name' => 'required|string',
         ];
     }
 }
