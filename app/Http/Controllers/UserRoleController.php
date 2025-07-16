@@ -17,7 +17,7 @@ class UserRoleController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/clients/roles",
+     *     path="/api/v1/users/clients/roles",
      *     summary="Obtiene lista de roles por un usuario.",
      *     tags={"User Role"},
      *      security={{"bearer_token":{}}},
@@ -60,7 +60,7 @@ class UserRoleController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/users/clients/assign-role",
+     *      path="/api/v1/users/clients/assign-role",
      *      tags={"User Role"},
      *      summary="Asignar un rol de cliente a un usuario.",
      *      description="Endpoint para asignar el rol de cliente a un usuario.",
@@ -113,7 +113,7 @@ class UserRoleController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}",
+     *      path="/api/v1/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}",
      *      tags={"User Role"},
      *      summary="Eliminar usuario a un grupo.",
      *      description="Endpoint para Eliminar un asuario a un grupo.",

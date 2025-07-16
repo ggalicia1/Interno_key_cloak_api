@@ -6,13 +6,13 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/clients": {
+        "/api/v1/clients": {
             "get": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Listar clientes del reino.",
-                "operationId": "16a847df22d1048fd6da41495d03af24",
+                "operationId": "7440cda6096ba443611fb85b9e103066",
                 "parameters": [
                     {
                         "name": "realm",
@@ -66,13 +66,13 @@
                 ]
             }
         },
-        "/api/clients/{realm}/catalog": {
+        "/api/v1/clients/{realm}/catalog": {
             "get": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Listar clientes del reino.",
-                "operationId": "a83775c62953a83c07369609c5e25aab",
+                "operationId": "86b019537ba5ccaa8bd6c9cfc3b0478f",
                 "parameters": [
                     {
                         "name": "realm",
@@ -114,13 +114,13 @@
                 ]
             }
         },
-        "/api/clients/client-by-id": {
+        "/api/v1/clients/client-by-id": {
             "get": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Obtiene cliente por Id de un reino",
-                "operationId": "8f77e3955b5f3c93d901999694952230",
+                "operationId": "312769555df264f121908e6ef3319458",
                 "parameters": [
                     {
                         "name": "realm",
@@ -168,13 +168,13 @@
                 ]
             }
         },
-        "/api/clients/create": {
+        "/api/v1/clients/create": {
             "post": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Crear un nuevo cliente en el reino especificado",
-                "operationId": "c0cd286a45839546842058fdf3a4a49a",
+                "operationId": "0c87b0de79119b61c4b4297befd6420e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -304,13 +304,13 @@
                 ]
             }
         },
-        "/api/clients/update": {
+        "/api/v1/clients/update": {
             "put": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Actualizar un cliente existente en Keycloak",
-                "operationId": "345ad1f2403cdec40aa5ee86f3a89ca6",
+                "operationId": "26dadeb8e33a68884efacf4a81385d6b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -438,14 +438,14 @@
                 ]
             }
         },
-        "/api/clients/delete": {
+        "/api/v1/clients/delete": {
             "delete": {
                 "tags": [
                     "Clients"
                 ],
                 "summary": "Eliminar rol del cliente.",
                 "description": "Endpoint para Eliminar un rol cliente.",
-                "operationId": "4b55673af64a37b10851368ae79cd312",
+                "operationId": "a2fbbc922f4310e7fcb773a7fcc2f7aa",
                 "parameters": [
                     {
                         "name": "realm",
@@ -525,13 +525,13 @@
                 ]
             }
         },
-        "/api/clients/roles": {
+        "/api/v1/clients/roles": {
             "get": {
                 "tags": [
                     "Client Roles"
                 ],
                 "summary": "Obtiene una lista de los roles por Id de cliente de un reino",
-                "operationId": "9fe6db12d281848bc7aa469da63b25be",
+                "operationId": "2c891f24df548489815f0665ff81f987",
                 "parameters": [
                     {
                         "name": "realm",
@@ -591,13 +591,13 @@
                 ]
             }
         },
-        "/api/clients/roles/role-by-name": {
+        "/api/v1/clients/roles/role-by-name": {
             "get": {
                 "tags": [
                     "Client Roles"
                 ],
                 "summary": "Obtiene un roles por nombre.",
-                "operationId": "d7886681f41d6a5c38e5c2d3c9e28614",
+                "operationId": "ca242150a15eaa2427083f5c48e9effe",
                 "parameters": [
                     {
                         "name": "realm",
@@ -651,13 +651,13 @@
                 ]
             }
         },
-        "/api/clients/roles/create": {
+        "/api/v1/clients/roles/create": {
             "post": {
                 "tags": [
                     "Client Roles"
                 ],
                 "summary": "Crear un nuevo rol de cliente.",
-                "operationId": "8c93b6451672a9e564b3a4923305b9a4",
+                "operationId": "c46396faf0e8f34785f65cd42cfe55f3",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -753,13 +753,13 @@
                 ]
             }
         },
-        "/api/clients/roles/update": {
+        "/api/v1/clients/roles/update": {
             "put": {
                 "tags": [
                     "Client Roles"
                 ],
                 "summary": "Update un rol de cliente.",
-                "operationId": "971d1dea6c6ffd1b5d08d56990f82801",
+                "operationId": "768d96b086a3644e150a5c5653c13784",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -855,14 +855,14 @@
                 ]
             }
         },
-        "/api/clients/roles/delete": {
+        "/api/v1/clients/roles/delete": {
             "delete": {
                 "tags": [
                     "Client Roles"
                 ],
                 "summary": "Eliminar rol del cliente.",
                 "description": "Endpoint para Eliminar un rol cliente.",
-                "operationId": "66383ef3c3218d019f8e2f1d02bf9bd7",
+                "operationId": "fd2e195ccbc7bd1d4a9ed2c63959472f",
                 "parameters": [
                     {
                         "name": "realm",
@@ -988,13 +988,13 @@
                 ]
             }
         },
-        "/api/v1/realms/public_key": {
+        "/api/v1/realms/public-key": {
             "get": {
                 "tags": [
                     "Realm"
                 ],
                 "summary": "Obtiene reino por nombre",
-                "operationId": "28566948fed022d2013f9190acf25c5f",
+                "operationId": "cf042e5fac7bf3a65e06075c2b31d6e2",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1042,13 +1042,13 @@
                 ]
             }
         },
-        "/api/users": {
+        "/api/v1/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Listar usuarios de un reino.",
-                "operationId": "eb4778acaf6045bfd48b299b2997094f",
+                "operationId": "9e671025ea2a66f7a2eef58307ecb90a",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1107,7 +1107,7 @@
                 ],
                 "summary": "Crear un usuario en Keycloak",
                 "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
-                "operationId": "15cb7ac620df8a65f737624b240b8976",
+                "operationId": "6e2d3a54f8ce5ea79b968d43f20b52d1",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1261,13 +1261,13 @@
                 ]
             }
         },
-        "/api/users/user-by-id": {
+        "/api/v1/users/user-by-id": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Obtiene un usuario por id del reino.",
-                "operationId": "565889ee9d92055702b494400d27ef32",
+                "operationId": "e9c0619cca6708c0fe496976c5b12413",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1315,14 +1315,14 @@
                 ]
             }
         },
-        "/api/users/{realm}/{user_id}": {
+        "/api/v1/users/{realm}/{user_id}": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Actualizar un usuario en Keycloak",
                 "description": "Endpoint para Actualiar informacion del usuario en Keycloak.",
-                "operationId": "17dd870f6f6ce6243f5ca9389929cfaf",
+                "operationId": "d6108f8cca6f0e24cbd17dec93856610",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1434,14 +1434,14 @@
                 ]
             }
         },
-        "/api/users/enable-disable": {
+        "/api/v1/users/enable-disable": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Activar y desactivar un usuario.",
                 "description": "Endpoint para habilitar y deshabilitar usuario del keycloak.",
-                "operationId": "0b81e6875437958d0479d3fff0ca9f4d",
+                "operationId": "f01966cdc1e3a5a2f838478fb7a97c06",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1528,14 +1528,14 @@
                 ]
             }
         },
-        "/api/users/credentials/reset-password": {
+        "/api/v1/users/credentials/reset-password": {
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Crear la contraseña un usuario en Keycloak",
                 "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
-                "operationId": "87c40bff08cb4b655240f25867ac155a",
+                "operationId": "eb7c2e1162e2df174061657812e5a75a",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1646,13 +1646,13 @@
                 ]
             }
         },
-        "/api/users/search": {
+        "/api/v1/users/search": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Buscar usuario por nombre usuarios, nombres, apellidos o correo electronico en un reino.",
-                "operationId": "d1d146ddfc1c62c0b82b2da1ef770008",
+                "operationId": "d5240577d45bb4d2ead48e83da4873b1",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1714,13 +1714,13 @@
                 ]
             }
         },
-        "/api/users/retrieve-realm-roles": {
+        "/api/v1/users/retrieve-realm-roles": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Recupera roles del usuario",
-                "operationId": "65b33636cf9ebf6a8e4ceb529e9a461b",
+                "operationId": "d96c85abd8b96b539cb8baf4231accf2",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1770,14 +1770,14 @@
                 ]
             }
         },
-        "/api/users/join-group/{realm}/{user_id}/{group_id}": {
+        "/api/v1/users/join-group/{realm}/{user_id}/{group_id}": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Agregar usuario a un grupo.",
                 "description": "Endpoint para agregar un asuario a un grupo.",
-                "operationId": "9034c6f255d43abb98918f39102359fe",
+                "operationId": "9b2e5841df1002becc0c3c75b8c568c9",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1863,14 +1863,14 @@
                 ]
             }
         },
-        "/api/users/leave-group/{realm}/{user_id}/{group_id}": {
+        "/api/v1/users/leave-group/{realm}/{user_id}/{group_id}": {
             "delete": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Eliminar usuario a un grupo.",
                 "description": "Endpoint para Eliminar un asuario a un grupo.",
-                "operationId": "57766257958f722b530e4b77ccbad88d",
+                "operationId": "675ad3afe7d369ad83b4bb1e2cc394d2",
                 "parameters": [
                     {
                         "name": "realm",
@@ -1956,13 +1956,13 @@
                 ]
             }
         },
-        "/api/users/retrieve-groups": {
+        "/api/v1/users/retrieve-groups": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Recupera reupos donde esta el usuario",
-                "operationId": "78bc26e671af6eb81cf32603ca674ea5",
+                "operationId": "9f05a450d2d38e9a30b897fded9fa388",
                 "parameters": [
                     {
                         "name": "realm",
@@ -2012,13 +2012,13 @@
                 ]
             }
         },
-        "/api/users/clients/roles": {
+        "/api/v1/users/clients/roles": {
             "get": {
                 "tags": [
                     "User Role"
                 ],
                 "summary": "Obtiene lista de roles por un usuario.",
-                "operationId": "0d49e7c80ee7141b893e7d150a1a45fa",
+                "operationId": "2c8613da32f4e1070d65050b424550bf",
                 "parameters": [
                     {
                         "name": "realm",
@@ -2072,14 +2072,14 @@
                 ]
             }
         },
-        "/api/users/clients/assign-role": {
+        "/api/v1/users/clients/assign-role": {
             "post": {
                 "tags": [
                     "User Role"
                 ],
                 "summary": "Asignar un rol de cliente a un usuario.",
                 "description": "Endpoint para asignar el rol de cliente a un usuario.",
-                "operationId": "8ee7ce4f923b4940cc6cf6d0fec11c7e",
+                "operationId": "b10099e9f38dc386117880c25bc5b9ee",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2179,14 +2179,14 @@
                 ]
             }
         },
-        "/api/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}": {
+        "/api/v1/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}": {
             "delete": {
                 "tags": [
                     "User Role"
                 ],
                 "summary": "Eliminar usuario a un grupo.",
                 "description": "Endpoint para Eliminar un asuario a un grupo.",
-                "operationId": "3ec7910ca2b27e94c737a4b6825f6ae5",
+                "operationId": "97f97119fcd9cff997c9c6f7441c5b4a",
                 "parameters": [
                     {
                         "name": "realm",

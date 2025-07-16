@@ -26,7 +26,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/api/users",
+     *     path="/api/v1/users",
      *     summary="Listar usuarios de un reino.",
      *     tags={"Users"},
      *     security={{"bearer_token":{}}},
@@ -68,7 +68,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/api/users/user-by-id",
+     *     path="/api/v1/users/user-by-id",
      *     summary="Obtiene un usuario por id del reino.",
      *     tags={"Users"},
      *     security={{"bearer_token":{}}},
@@ -105,7 +105,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/users",
+     *      path="/api/v1/users",
      *      tags={"Users"},
      *      summary="Crear un usuario en Keycloak",
      *      description="Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
@@ -175,7 +175,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Put(
-     *      path="/api/users/{realm}/{user_id}",
+     *      path="/api/v1/users/{realm}/{user_id}",
      *      tags={"Users"},
      *      summary="Actualizar un usuario en Keycloak",
      *      description="Endpoint para Actualiar informacion del usuario en Keycloak.",
@@ -240,7 +240,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Put(
-     *      path="/api/users/enable-disable",
+     *      path="/api/v1/users/enable-disable",
      *      tags={"Users"},
      *      summary="Activar y desactivar un usuario.",
      *      description="Endpoint para habilitar y deshabilitar usuario del keycloak.",
@@ -309,7 +309,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Post(
-     *      path="/api/users/credentials/reset-password",
+     *      path="/api/v1/users/credentials/reset-password",
      *      tags={"Users"},
      *      summary="Crear la contraseña un usuario en Keycloak",
      *      description="Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
@@ -369,7 +369,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/search",
+     *     path="/api/v1/users/search",
      *     summary="Buscar usuario por nombre usuarios, nombres, apellidos o correo electronico en un reino.",
      *     tags={"Users"},
      *     security={{"bearer_token":{}}},
@@ -423,7 +423,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/retrieve-realm-roles",
+     *     path="/api/v1/users/retrieve-realm-roles",
      *     summary="Recupera roles del usuario",
      *     tags={"Users"},
      *     security={{"bearer_token":{}}},
@@ -473,7 +473,7 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/users/join-group/{realm}/{user_id}/{group_id}",
+     *      path="/api/v1/users/join-group/{realm}/{user_id}/{group_id}",
      *      tags={"Users"},
      *      summary="Agregar usuario a un grupo.",
      *      description="Endpoint para agregar un asuario a un grupo.",
@@ -532,7 +532,7 @@ class UserController extends Controller
     }
     /**
      * @OA\Delete(
-     *      path="/api/users/leave-group/{realm}/{user_id}/{group_id}",
+     *      path="/api/v1/users/leave-group/{realm}/{user_id}/{group_id}",
      *      tags={"Users"},
      *      summary="Eliminar usuario a un grupo.",
      *      description="Endpoint para Eliminar un asuario a un grupo.",
@@ -592,7 +592,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/retrieve-groups",
+     *     path="/api/v1/users/retrieve-groups",
      *     summary="Recupera reupos donde esta el usuario",
      *     tags={"Users"},
      *     security={{"bearer_token":{}}},

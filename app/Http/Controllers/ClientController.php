@@ -19,7 +19,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/clients",
+     *     path="/api/v1/clients",
      *     summary="Listar clientes del reino.",
      *     tags={"Clients"},
      *      security={{"bearer_token":{}}},
@@ -62,7 +62,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/clients/{realm}/catalog",
+     *     path="/api/v1/clients/{realm}/catalog",
      *     summary="Listar clientes del reino.",
      *     tags={"Clients"},
      *      security={{"bearer_token":{}}},
@@ -93,7 +93,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/clients/client-by-id",
+     *     path="/api/v1/clients/client-by-id",
      *     summary="Obtiene cliente por Id de un reino",
      *     tags={"Clients"},
      *      security={{"bearer_token":{}}},
@@ -131,7 +131,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/clients/create",
+     *     path="/api/v1/clients/create",
      *     summary="Crear un nuevo cliente en el reino especificado",
      *     tags={"Clients"},
      *      security={{"bearer_token":{}}},
@@ -195,7 +195,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/clients/update",
+     *     path="/api/v1/clients/update",
      *     summary="Actualizar un cliente existente en Keycloak",
      *     tags={"Clients"},
      *      security={{"bearer_token":{}}},
@@ -264,7 +264,7 @@ class ClientController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/clients/delete",
+     *      path="/api/v1/clients/delete",
      *      tags={"Clients"},
      *      summary="Eliminar rol del cliente.",
      *      description="Endpoint para Eliminar un rol cliente.",

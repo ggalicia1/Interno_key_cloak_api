@@ -43,7 +43,7 @@ class RealmController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/realms/public_key",
+     *     path="/api/v1/realms/public-key",
      *     summary="Obtiene reino por nombre",
      *     tags={"Realm"},
      *      security={{"bearer_token":{}}},

@@ -18,7 +18,7 @@ class ClientRolesController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/api/clients/roles",
+     *     path="/api/v1/clients/roles",
      *     summary="Obtiene una lista de los roles por Id de cliente de un reino",
      *     tags={"Client Roles"},
      *      security={{"bearer_token":{}}},
@@ -67,7 +67,7 @@ class ClientRolesController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/api/clients/roles/role-by-name",
+     *     path="/api/v1/clients/roles/role-by-name",
      *     summary="Obtiene un roles por nombre.",
      *     tags={"Client Roles"},
      *      security={{"bearer_token":{}}},
@@ -111,7 +111,7 @@ class ClientRolesController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/clients/roles/create",
+     *     path="/api/v1/clients/roles/create",
      *     summary="Crear un nuevo rol de cliente.",
      *     tags={"Client Roles"},
      *      security={{"bearer_token":{}}},
@@ -170,7 +170,7 @@ class ClientRolesController extends Controller
     }
     /**
      * @OA\Put(
-     *     path="/api/clients/roles/update",
+     *     path="/api/v1/clients/roles/update",
      *     summary="Update un rol de cliente.",
      *     tags={"Client Roles"},
      *      security={{"bearer_token":{}}},
@@ -229,7 +229,7 @@ class ClientRolesController extends Controller
     }
     /**
      * @OA\Delete(
-     *      path="/api/clients/roles/delete",
+     *      path="/api/v1/clients/roles/delete",
      *      tags={"Client Roles"},
      *      summary="Eliminar rol del cliente.",
      *      description="Endpoint para Eliminar un rol cliente.",
