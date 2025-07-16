@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\User;
 
 use App\Contracts\User\IUser;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Paginate\GeneratePagination;
 use Illuminate\Support\Facades\Log;
 use Overtrue\Keycloak\Collection\CredentialCollection;
 use Overtrue\Keycloak\Representation\Credential;
@@ -25,30 +27,26 @@ class UserRepository implements IUser
     public function users(array $request) : array
     {
         try {
-            $realm = $request['realm'] ? $request['realm'] : 'Interno';
-            if(isset($request['limit'])){
-                $limit = $request['limit'];
-                $offset = $request['offset'];
-            }else{
-                $limit = 10; // cantidad de usuarios por página
-                $offset = 0; // desplazamiento inicial
+            $realm = $request['realm'] ?? 'Interno';
+
+
+            $total = KeycloakAdmin::users()->count($realm, ['enabled' => true]);
+            $pagination = GeneratePagination::pagination($request, $total);
+            $pagination->total_page = ceil($pagination->total / $pagination->page_size);
+            $users = KeycloakAdmin::users()->all($realm, [
+                                                            'max' => $pagination->page_size,
+                                                            'first' => $pagination->page_index,
+                                                            'enabled' => true,
+                                                        ]);
+            if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
+
+            $data = [];
+            foreach ($users as $user) {
+                $data [] = new UserResource($user);
             }
 
-            $users_total = KeycloakAdmin::users()->count($realm, $offset);
-            $users = KeycloakAdmin::users()->all($realm, [
-                                                            'max' => $limit,
-                                                            'first' => $offset,
-                                                            'enabled' => true,
-                                                            'groups' => 'disi'
-                                                        ]);
-            $response = [
-                'limit' => $limit,
-                'offset' => $offset,
-                'date' => $users
-            ];
-
-            if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
-            return [true, 'Operación exitosa', $response, 200];
+            $pagination->data = $data;
+            return [true, 'Operación exitosa', $pagination, 200];
         } catch (\Throwable $th) {
             //throw $th;
             Log::error('Error al obtener lista de usuarios: ' . $th->getMessage());
@@ -60,7 +58,7 @@ class UserRepository implements IUser
     {
         try {
             $user = KeycloakAdmin::users()->get($data['realm'], $data['user_id']);
-            return [true, 'Operación exitosa', $user, 200];
+            return [true, 'Operación exitosa', new UserResource($user), 200];
         } catch (\Throwable $th) {
             //throw $th;
             $status_code = $th->getCode();
@@ -72,7 +70,7 @@ class UserRepository implements IUser
     {
         try {
             $realm = $data['realm'];
-            $user_representation = $this->setInformationUser($data);
+            $user_representation = $this->setInformationUser($data, new UserRepresentation());
             $user = KeycloakAdmin::users()->create($realm, $user_representation);
             if($user) return [true, 'Operación exitosa', null, 200];
             return [false, 'Algo salio mal, intente mas tarde.', null, 400];
@@ -91,6 +89,7 @@ class UserRepository implements IUser
     {
         try {
             $user_representation = KeycloakAdmin::users()->get($realm, $user_id);
+
             $user_representation = $this->setInformationUser($data, $user_representation);
             $user = KeycloakAdmin::users()->update($realm, $user_id, $user_representation);
             if($user) return [true, 'Operación exitosa', null, 200];
@@ -99,11 +98,11 @@ class UserRepository implements IUser
             $status_code = $th->getCode();
             if($status_code != 500) {
                 $response = ($th->getResponse());
-                Log::error('Error al crear el usuario: ' . $th->getMessage());
-                return [false, 'Error al crear el usuario.', json_decode($response->getBody()->getContents()), $status_code];
+                Log::error('Error al actualizar el usuario: ' . $th->getMessage());
+                return [false, 'Error al actualizar el usuario.', json_decode($response->getBody()->getContents()), $status_code];
             }
-            Log::error('Error en el servidor no se pudo crear el usuario: ' . $th->getMessage());
-            return [false, 'Error en el servidor no se pudo crear el usuario.', null, $status_code];
+            Log::error('Error en el servidor no se pudo actualizar el usuario: ' . $th->getMessage());
+            return [false, 'Error en el servidor no se pudo actualizar el usuario.', null, $status_code];
         }
     }
     public function userCredential(string $user_id, array $data) : array
@@ -127,9 +126,110 @@ class UserRepository implements IUser
         }
     }
 
+    public function search(array $data): array
+    {
+        try {
+            $pagination = GeneratePagination::pagination($data, null);
+            $users = KeycloakAdmin::users()->search($data['realm'], [
+                                                            'max' => $pagination->page_size,
+                                                            'first' => $pagination->page_index,
+                                                            'enabled' => true,
+                                                            'search' => $data['search'],
+                                                            ]);
+
+            if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
+            $new_data = [];
+            foreach ($users as $user) {
+                $new_data [] = new UserResource($user);
+            }
+            $pagination->data = $new_data;
+            return [true, 'Operación exitosa', $pagination, 200];
+        } catch (\Exception $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+
+                $response = ($th->getResponse());
+                Log::error('Error al realizar la busqueda: ' . $th->getMessage());
+                return [false, 'Error al realizar la busqueda.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error al realizar la busqueda: ' . $th->getMessage());
+            return [false, 'Error en la operación.', null, $status_code];
+        }
+    }
+    public function retrieveRealmRoles(array $data) : array
+    {
+        try {
+            $realm = $data['realm'] ? $data['realm'] : 'Interno';
+            $user = KeycloakAdmin::users()->retrieveRealmRoles($realm, $data['user_id']);
+            if(count($user) == 0) return [false, 'No se encontraron roles para este usuario.', null, 404];
+            return [true, 'Operación exitosa', $user, 200];
+        } catch (\Exception $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+                $response = ($th->getResponse());
+                Log::error('Error intentar recuperar los roles: ' . $th->getMessage());
+                return [false, 'Error intentar recuperar los roles.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error intentar recuperar los roles: ' . $th->getMessage());
+            return [false, 'Error intentar recuperar los roles.', null, $status_code];
+        }
+    }
+    public function joinGroup(string $realm, string $user_id, string $group_id) : array
+    {
+        try {
+
+            $user = KeycloakAdmin::users()->joinGroup($realm, $user_id, $group_id);
+            return [true, 'Operación exitosa', null, 200];
+        } catch (\Exception $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+                $response = ($th->getResponse());
+                Log::error('Error al intentar agregar a grupo: ' . $th->getMessage());
+                return [false, 'Error al intentar agregar a grupo.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error al intentar agregar a grupo: ' . $th->getMessage());
+            return [false, 'Error en la operación.', null, $status_code];
+        };
+    }
+    public function retrieveGroups(string $realm, string $user_id, array $criteria) : array
+    {
+        try {
+
+            $groups = KeycloakAdmin::users()->retrieveGroups($realm, $user_id, $criteria);
+            if(count($groups) == 0) return [false, 'No se encontraron resultados.', null, 404];
+            return [true, 'Operación exitosa', $groups, 200];
+        } catch (\Exception $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+                $response = ($th->getResponse());
+                Log::error('Error al realizar la busqueda de grupos para este usuario.: ' . $th->getMessage());
+                return [false, 'Error en la busqueda.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error la busqueda: ' . $th->getMessage());
+            return [false, 'Error en la operación.', null, $status_code];
+        }
+    }
+    public function leaveGroup(string $realm, string $user_id, string $group_id) : array
+    {
+        try {
+
+            $user = KeycloakAdmin::users()->leaveGroup($realm, $user_id, $group_id);
+            return [true, 'Operación exitosa', $user, 200];
+        } catch (\Exception $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+                $response = ($th->getResponse());
+                Log::error('Error al realizar la busqueda: ' . $th->getMessage());
+                return [false, 'Error al realizar la busqueda.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error al crear la contraseña: ' . $th->getMessage());
+            return [false, 'Error en la operación.', null, $status_code];
+        }
+        return [true, 'Operación exitosa.', null, 200];
+    }
+
     public function setInformationUser(array $data, UserRepresentation $user_representation) : UserRepresentation
     {
-
         foreach ($data as $key => $value) {
                 switch ($key) {
                     case 'username':

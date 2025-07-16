@@ -12,11 +12,71 @@
                     "Clients"
                 ],
                 "summary": "Listar clientes del reino.",
-                "operationId": "f2321db7fec8448dc1048cd341b1f55a",
+                "operationId": "16a847df22d1048fd6da41495d03af24",
                 "parameters": [
                     {
                         "name": "realm",
                         "in": "query",
+                        "description": "Nombre del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "Tamaño del paginado",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de Pagina.",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/{realm}/catalog": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Listar clientes del reino.",
+                "operationId": "a83775c62953a83c07369609c5e25aab",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "path",
                         "description": "Nombre del reino",
                         "required": true
                     }
@@ -46,7 +106,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/client-by-id": {
@@ -55,7 +120,7 @@
                     "Clients"
                 ],
                 "summary": "Obtiene cliente por Id de un reino",
-                "operationId": "579cd03a6d22fb7a7f523992bd7ffe46",
+                "operationId": "8f77e3955b5f3c93d901999694952230",
                 "parameters": [
                     {
                         "name": "realm",
@@ -64,7 +129,7 @@
                         "required": true
                     },
                     {
-                        "name": "client_id",
+                        "name": "client_uuid",
                         "in": "query",
                         "description": "Id del client",
                         "required": true
@@ -95,70 +160,852 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
-        "/api/roles": {
+        "/api/clients/create": {
+            "post": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Crear un nuevo cliente en el reino especificado",
+                "operationId": "c0cd286a45839546842058fdf3a4a49a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "protocol",
+                                    "clientId",
+                                    "name",
+                                    "publicClient",
+                                    "authorizationServicesEnabled",
+                                    "serviceAccountsEnabled",
+                                    "implicitFlowEnabled",
+                                    "directAccessGrantsEnabled",
+                                    "standardFlowEnabled",
+                                    "frontchannelLogout",
+                                    "alwaysDisplayInConsole",
+                                    "rootUrl",
+                                    "baseUrl",
+                                    "redirectUris",
+                                    "webOrigins",
+                                    "attributes"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "protocol": {
+                                        "type": "string",
+                                        "example": "openid-connect"
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "example": "test-client"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test-client"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Cliente de prueba"
+                                    },
+                                    "root_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "base_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "redirect_uris": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test/login/keycloak/callback"
+                                        ]
+                                    },
+                                    "web_origins": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test"
+                                        ]
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "post_logout_redirect_uris": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "example": "http://mi-app.test"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente creado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/update": {
+            "put": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Actualizar un cliente existente en Keycloak",
+                "operationId": "345ad1f2403cdec40aa5ee86f3a89ca6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "client_uuid"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "client_uuid": {
+                                        "type": "string",
+                                        "example": "b17ccfa3-8d0d-4ac7-912d-3c71f0c9d5e2"
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "example": "nuevo-client-id"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nuevo Nombre del Cliente"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción actualizada del cliente"
+                                    },
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "root_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "base_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "admin_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://mi-app.test/admin"
+                                    },
+                                    "origin": {
+                                        "type": "string",
+                                        "example": "http://mi-app.test"
+                                    },
+                                    "redirect_uris": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test/login/callback"
+                                        ]
+                                    },
+                                    "web_origins": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url"
+                                        },
+                                        "example": [
+                                            "http://mi-app.test"
+                                        ]
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "post_logout_redirect_uris": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "example": "http://mi-app.test/logout"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cliente actualizado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación o datos inválidos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/delete": {
+            "delete": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Eliminar rol del cliente.",
+                "description": "Endpoint para Eliminar un rol cliente.",
+                "operationId": "4b55673af64a37b10851368ae79cd312",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Rol eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/roles": {
             "get": {
                 "tags": [
-                    "Roles"
+                    "Client Roles"
                 ],
-                "summary": "Listar roles del reino",
-                "operationId": "d65ad88054aa19a95849109a46bfab0a",
+                "summary": "Obtiene una lista de los roles por Id de cliente de un reino",
+                "operationId": "9fe6db12d281848bc7aa469da63b25be",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "Tamaño del paginado",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de Pagina.",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/roles/role-by-name": {
+            "get": {
+                "tags": [
+                    "Client Roles"
+                ],
+                "summary": "Obtiene un roles por nombre.",
+                "operationId": "d7886681f41d6a5c38e5c2d3c9e28614",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Id del client",
+                        "required": true
+                    },
+                    {
+                        "name": "role_name",
+                        "in": "query",
+                        "description": "Nombre del client",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Obtiene el role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/roles/create": {
+            "post": {
+                "tags": [
+                    "Client Roles"
+                ],
+                "summary": "Crear un nuevo rol de cliente.",
+                "operationId": "8c93b6451672a9e564b3a4923305b9a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "client_uuid",
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "client_uuid": {
+                                        "type": "string",
+                                        "example": "1c742755-b30d-44a4-8b4b-4a60d6059a27"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test-client-role"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Role de prueba"
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "permission": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "example": [
+                                                    "read"
+                                                ]
+                                            },
+                                            "permission_2": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "example": [
+                                                    "write"
+                                                ]
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rol creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rol creado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/roles/update": {
+            "put": {
+                "tags": [
+                    "Client Roles"
+                ],
+                "summary": "Update un rol de cliente.",
+                "operationId": "971d1dea6c6ffd1b5d08d56990f82801",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "client_uuid",
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "mi-reino"
+                                    },
+                                    "client_uuid": {
+                                        "type": "string",
+                                        "example": "1c742755-b30d-44a4-8b4b-4a60d6059a27"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test-client-role"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Role de prueba"
+                                    },
+                                    "attributes": {
+                                        "properties": {
+                                            "permission": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "example": [
+                                                    "read"
+                                                ]
+                                            },
+                                            "permission_2": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "example": [
+                                                    "write"
+                                                ]
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rol creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rol creado exitosamente."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación de datos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/roles/delete": {
+            "delete": {
+                "tags": [
+                    "Client Roles"
+                ],
+                "summary": "Eliminar rol del cliente.",
+                "description": "Endpoint para Eliminar un rol cliente.",
+                "operationId": "66383ef3c3218d019f8e2f1d02bf9bd7",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "role_name",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Rol eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/realms": {
+            "get": {
+                "tags": [
+                    "Realm"
+                ],
+                "summary": "Listar reinos de keycloak",
+                "operationId": "7a744454451ab63ec9bae14c6be34cf9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/realms/public_key": {
+            "get": {
+                "tags": [
+                    "Realm"
+                ],
+                "summary": "Obtiene reino por nombre",
+                "operationId": "28566948fed022d2013f9190acf25c5f",
                 "parameters": [
                     {
                         "name": "realm",
                         "in": "query",
                         "description": "Nombre del reino",
                         "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/roles/role-by-name": {
-            "get": {
-                "tags": [
-                    "Roles"
-                ],
-                "summary": "Obtiene rol por nombre del reino.",
-                "operationId": "63a8bcc95d6f731c5b14dacf9adb6cac",
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "query",
-                        "description": "Id del reino",
-                        "required": true
                     },
                     {
-                        "name": "role_name",
+                        "name": "algorithm",
                         "in": "query",
-                        "description": "Id del client",
+                        "description": "Algoritmot",
                         "required": true
                     }
                 ],
@@ -187,85 +1034,12 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        "/api/realms": {
-            "get": {
-                "tags": [
-                    "Realms"
-                ],
-                "summary": "Listar reinos de keycloak",
-                "operationId": "ec40aa3236554383d74b072ebcb5a4f5",
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/realms/realm-by-name": {
-            "get": {
-                "tags": [
-                    "Realms"
-                ],
-                "summary": "Obtiene reino por nombre",
-                "operationId": "3d8114084358ba290db326123341897c",
-                "parameters": [
+                },
+                "security": [
                     {
-                        "name": "realm_name",
-                        "in": "query",
-                        "description": "Id del client",
-                        "required": true
+                        "bearer_token": []
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/users": {
@@ -283,15 +1057,15 @@
                         "required": true
                     },
                     {
-                        "name": "limit",
+                        "name": "page_size",
                         "in": "query",
-                        "description": "Nombre del Reino",
+                        "description": "Tamaño del paginado",
                         "required": true
                     },
                     {
-                        "name": "offset",
+                        "name": "page",
                         "in": "query",
-                        "description": "Nombre del Reino",
+                        "description": "Numero de Pagina.",
                         "required": true
                     }
                 ],
@@ -320,7 +1094,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -328,7 +1107,7 @@
                 ],
                 "summary": "Crear un usuario en Keycloak",
                 "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
-                "operationId": "1a63883edb751cb640a2f6f516236f49",
+                "operationId": "15cb7ac620df8a65f737624b240b8976",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -338,8 +1117,8 @@
                                     "realm",
                                     "username",
                                     "email",
-                                    "firstName",
-                                    "lastName",
+                                    "first_Name",
+                                    "last_name",
                                     "enabled"
                                 ],
                                 "properties": {
@@ -355,15 +1134,15 @@
                                         "type": "string",
                                         "example": "juan.perez@example.com"
                                     },
-                                    "emailVerified": {
+                                    "email_verified": {
                                         "type": "boolean",
                                         "example": true
                                     },
-                                    "firstName": {
+                                    "first_name": {
                                         "type": "string",
                                         "example": "Juan"
                                     },
-                                    "lastName": {
+                                    "last_name": {
                                         "type": "string",
                                         "example": "Perez"
                                     },
@@ -493,7 +1272,7 @@
                     {
                         "name": "realm",
                         "in": "query",
-                        "description": "Id del usuario",
+                        "description": "Id del reina",
                         "required": true
                     },
                     {
@@ -528,7 +1307,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/{realm}/{user_id}": {
@@ -536,8 +1320,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Crear un usuario en Keycloak",
-                "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
+                "summary": "Actualizar un usuario en Keycloak",
+                "description": "Endpoint para Actualiar informacion del usuario en Keycloak.",
                 "operationId": "17dd870f6f6ce6243f5ca9389929cfaf",
                 "parameters": [
                     {
@@ -650,12 +1434,106 @@
                 ]
             }
         },
+        "/api/users/enable-disable": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Activar y desactivar un usuario.",
+                "description": "Endpoint para habilitar y deshabilitar usuario del keycloak.",
+                "operationId": "0b81e6875437958d0479d3fff0ca9f4d",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "True de activar y false para desactivar un usuario",
+                        "required": true,
+                        "example": false
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/users/credentials/reset-password": {
             "post": {
                 "tags": [
                     "Users"
                 ],
-                "summary": "Crear la contreña un usuario en Keycloak",
+                "summary": "Crear la contraseña un usuario en Keycloak",
                 "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
                 "operationId": "87c40bff08cb4b655240f25867ac155a",
                 "requestBody": {
@@ -767,24 +1645,671 @@
                     }
                 ]
             }
+        },
+        "/api/users/search": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Buscar usuario por nombre usuarios, nombres, apellidos o correo electronico en un reino.",
+                "operationId": "d1d146ddfc1c62c0b82b2da1ef770008",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del Reino",
+                        "required": true,
+                        "example": "Interno"
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "Tamaño del paginado",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de Pagina.",
+                        "required": true
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Parametro de busqueda, puede ser username, first o last name o email",
+                        "required": true,
+                        "example": "ggalicia"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/retrieve-realm-roles": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Recupera roles del usuario",
+                "operationId": "65b33636cf9ebf6a8e4ceb529e9a461b",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del Reino",
+                        "required": true,
+                        "example": "Interno"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true,
+                        "example": "7677e406-9404-49f1-bddf-ab15182538ec"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/join-group/{realm}/{user_id}/{group_id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Agregar usuario a un grupo.",
+                "description": "Endpoint para agregar un asuario a un grupo.",
+                "operationId": "9034c6f255d43abb98918f39102359fe",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "path",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/leave-group/{realm}/{user_id}/{group_id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Eliminar usuario a un grupo.",
+                "description": "Endpoint para Eliminar un asuario a un grupo.",
+                "operationId": "57766257958f722b530e4b77ccbad88d",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "path",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/retrieve-groups": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Recupera reupos donde esta el usuario",
+                "operationId": "78bc26e671af6eb81cf32603ca674ea5",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Nombre del Reino",
+                        "required": true,
+                        "example": "Interno"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "Id del usuario",
+                        "required": true,
+                        "example": "7677e406-9404-49f1-bddf-ab15182538ec"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/clients/roles": {
+            "get": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Obtiene lista de roles por un usuario.",
+                "operationId": "0d49e7c80ee7141b893e7d150a1a45fa",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "query",
+                        "description": "Id del reina",
+                        "required": true
+                    },
+                    {
+                        "name": "user_uuid",
+                        "in": "query",
+                        "description": "Uuid del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "client_uuid",
+                        "in": "query",
+                        "description": "Uuid del cliente",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/clients/assign-role": {
+            "post": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Asignar un rol de cliente a un usuario.",
+                "description": "Endpoint para asignar el rol de cliente a un usuario.",
+                "operationId": "8ee7ce4f923b4940cc6cf6d0fec11c7e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "realm",
+                                    "user_uuid",
+                                    "client_uuid",
+                                    "role_name"
+                                ],
+                                "properties": {
+                                    "realm": {
+                                        "type": "string",
+                                        "example": "Interno"
+                                    },
+                                    "user_uuid": {
+                                        "type": "string",
+                                        "example": "8b692f22-acb8-4944-9c2f-aec21c4da809"
+                                    },
+                                    "client_uuid": {
+                                        "type": "string",
+                                        "example": "1c742755-b30d-44a4-8b4b-4a60d6059a27"
+                                    },
+                                    "role_name": {
+                                        "type": "boolean",
+                                        "example": "Técnico de administración"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/clients/remove-role/{realm}/{user_id}/{client_id}/{role_name}": {
+            "delete": {
+                "tags": [
+                    "User Role"
+                ],
+                "summary": "Eliminar usuario a un grupo.",
+                "description": "Endpoint para Eliminar un asuario a un grupo.",
+                "operationId": "3ec7910ca2b27e94c737a4b6825f6ae5",
+                "parameters": [
+                    {
+                        "name": "realm",
+                        "in": "path",
+                        "description": "Id del reino",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    },
+                    {
+                        "name": "role_name",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "juanperez"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "juan.perez@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos enviados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Datos inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error interno"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
         {
+            "name": "Realm",
+            "description": "Operaciones relacionados con el reino de Keycloak."
+        },
+        {
             "name": "Clients",
-            "description": "Clients"
+            "description": "Operaciones relacionados con los clientes del reino de Keycloak."
         },
         {
-            "name": "Roles",
-            "description": "Roles"
+            "name": "Client Roles",
+            "description": "Operaciones relacionados con los roles a nivel de cliente de Keycloak."
         },
         {
-            "name": "Realms",
-            "description": "Realms"
+            "name": "User Role",
+            "description": "Operaciones relacionados con el reino de Keycloak."
         },
         {
             "name": "Users",
-            "description": "Users"
+            "description": "Operaciones relacionados con los usuarios del reino de Keycloak."
         }
-    ]
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in format (Bearer Token)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
 }

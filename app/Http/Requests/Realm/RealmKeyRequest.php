@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Realm;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserByIdRequest extends FormRequest
+class RealmKeyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,8 @@ class UserByIdRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'realm'=> 'required|string',
-            'user_id'=> 'required|string',
-            'enabled'=> 'nullable|string',
+            'realm' => 'required|string',
+            'algorithm' => 'required|string'
         ];
     }
 }
