@@ -1,0 +1,84 @@
+version: '3.3'
+
+services:
+  app_keycloack:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: keycloack-app
+    container_name: ${APP_NAME}-APP
+    restart: unless-stopped
+    tty: true
+#    depends_on:
+#        - postgres_sso
+#        - redis
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - sso-network
+
+  webserver_key_cloack:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    image: keycloak-nginx-server
+    container_name: ${APP_NAME}-SERVER
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3333:80"
+    networks:
+      - rr-hh-network
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+#  postgres_keycloack:
+#    image: postgres
+#    container_name: ${APP_NAME}-POSTGRES
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: ${DB_USERNAME}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#      POSTGRES_DB: ${DB_DATABASE}
+#    ports:
+#      - "3332:5432"
+#    volumes:
+#      -  postgres-data-keycloak:/var/lib/postgresql/data
+#      - ./docker/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+#    networks:
+#      - keycloak-network
+
+#networks:
+#  rr-hh-network:
+#    name: back-tier-01
+#    external: true
+
+#  supervisor_keycloak:
+#    build:
+#        context: ./supervisor
+#        dockerfile: Dockerfile
+#    image: keycloack-supervisor
+#    container_name: ${APP_NAME}-SUPERVISOR
+#    volumes:
+#    - ./:/var/www
+#    - ./supervisor:/etc/supervisor/conf.d
+#    depends_on:
+#    - app_keycloack
+#    networks:
+#    - keycloak-network
+
+networks:
+  keycloak-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.38.20.0/24
+
+#volumes:
+#  postgres-data-keycloak:
