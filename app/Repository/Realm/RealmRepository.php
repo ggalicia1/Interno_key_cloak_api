@@ -83,4 +83,22 @@ class RealmRepository implements IRealm
 
         }
     }
+    public function create(array $data) : array
+    {
+        try {
+            $realm = KeycloakAdmin::realms()->import($data);
+            return [true, 'Creación de reino exitosa', $realm, 200];
+        } catch (\Throwable $th) {
+            $status_code = $th->getCode();
+            if($status_code != 500) {
+                $response = ($th->getResponse());
+                Log::error('Error al crear el reino: ' . $th->getMessage());
+                return [false, 'Error al crear el reino.', json_decode($response->getBody()->getContents()), $status_code];
+            }
+            Log::error('Error en servidor: ' . $th->getMessage());
+            return [false, 'Error en el servidor', null, $status_code];
+
+
+        }
+    }
 }
