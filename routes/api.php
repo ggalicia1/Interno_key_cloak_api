@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientRolesController;
 use App\Http\Controllers\KeyCloakController;
+use App\Http\Controllers\RealmController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Http\Request;
@@ -54,8 +55,7 @@ Route::middleware(['JwtKeyCloak', 'ClientKeyCloak'])->prefix('clients/roles')->c
     Route::delete('delete', 'deleteClientRole');
 });
 
-
-Route::get('roles', [KeyCloakController::class, 'roles']);
-Route::get('roles/role-by-name', [KeyCloakController::class, 'roleByName']);
-Route::get('realms', [KeyCloakController::class, 'realms']);
-Route::get('realms/realm-by-name', [KeyCloakController::class, 'realmByName']);
+Route::middleware(['JwtKeyCloak', 'ClientKeyCloak'])->prefix('v1/realms')->controller(RealmController::class)->group(function(){
+    Route::get('', 'realms');
+    Route::get('public_key', 'keys');
+});

@@ -948,67 +948,64 @@
                 ]
             }
         },
-        "/api/roles": {
+        "/api/v1/realms": {
             "get": {
                 "tags": [
-                    "Realm Roles"
+                    "Realm"
                 ],
-                "summary": "Listar roles del reino",
-                "operationId": "d65ad88054aa19a95849109a46bfab0a",
+                "summary": "Listar reinos de keycloak",
+                "operationId": "7a744454451ab63ec9bae14c6be34cf9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/realms/public_key": {
+            "get": {
+                "tags": [
+                    "Realm"
+                ],
+                "summary": "Obtiene reino por nombre",
+                "operationId": "28566948fed022d2013f9190acf25c5f",
                 "parameters": [
                     {
                         "name": "realm",
                         "in": "query",
                         "description": "Nombre del reino",
                         "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/roles/role-by-name": {
-            "get": {
-                "tags": [
-                    "Realm Roles"
-                ],
-                "summary": "Obtiene rol por nombre del reino.",
-                "operationId": "63a8bcc95d6f731c5b14dacf9adb6cac",
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "query",
-                        "description": "Id del reino",
-                        "required": true
                     },
                     {
-                        "name": "role_name",
+                        "name": "algorithm",
                         "in": "query",
-                        "description": "Id del client",
+                        "description": "Algoritmot",
                         "required": true
                     }
                 ],
@@ -1037,85 +1034,12 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        "/api/realms": {
-            "get": {
-                "tags": [
-                    "Realm"
-                ],
-                "summary": "Listar reinos de keycloak",
-                "operationId": "ec40aa3236554383d74b072ebcb5a4f5",
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/realms/realm-by-name": {
-            "get": {
-                "tags": [
-                    "Realm"
-                ],
-                "summary": "Obtiene reino por nombre",
-                "operationId": "3d8114084358ba290db326123341897c",
-                "parameters": [
+                },
+                "security": [
                     {
-                        "name": "realm_name",
-                        "in": "query",
-                        "description": "Id del client",
-                        "required": true
+                        "bearer_token": []
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lista de roles",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/users": {
@@ -2359,10 +2283,6 @@
         {
             "name": "Realm",
             "description": "Operaciones relacionados con el reino de Keycloak."
-        },
-        {
-            "name": "Realm Roles",
-            "description": "Operaciones relacionados con los roles a nivel de reino de Keycloak."
         },
         {
             "name": "Clients",

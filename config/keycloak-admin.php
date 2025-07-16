@@ -5,6 +5,7 @@ return [
     'username' => env('KEYCLOAK_ADMIN_USERNAME', 'admin'),
     'password' => env('KEYCLOAK_ADMIN_PASSWORD', 'admin'),
     'use_laravel_cache' => env('KEYCLOAK_ADMIN_USE_LARAVEL_CACHE', true),
+    'keycloack_realm_default' => env('KEYCLOAK_REALM_DEFAULT', 'master'),
 
     // cache
     //    'access_token_cache_key' => env('KEYCLOAK_ADMIN_ACCESS_TOKEN_CACHE_KEY', 'laravel-keycloak-admin-cache-token'),

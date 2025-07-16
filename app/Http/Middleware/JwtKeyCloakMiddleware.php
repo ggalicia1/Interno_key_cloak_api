@@ -28,7 +28,7 @@ class JwtKeyCloakMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->bearerToken();
-        $realm = $request->realm;
+        $realm = $request->realm ?? config('keycloak-admin.keycloack_realm_default');
 
         if(!$token || strpos($token, ' ') !== false){
             return Response()->json([
