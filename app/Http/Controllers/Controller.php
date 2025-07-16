@@ -7,7 +7,31 @@ namespace App\Http\Controllers;
  *     version="1.0.0",
  *     title="API Keycloak Middleware",
  *     description="Documentación Swagger de la API intermedia entre Laravel y Keycloak"
- * )
+ *      ),
+ *     @OA\Tag(
+ *          name="Realm",
+ *          description="Operaciones relacionados con el reino de Keycloak."
+ *      ),
+ *     @OA\Tag(
+ *          name="Realm Roles",
+ *          description="Operaciones relacionados con los roles a nivel de reino de Keycloak."
+ *      ),
+ *     @OA\Tag(
+ *          name="Clients",
+ *          description="Operaciones relacionados con los clientes del reino de Keycloak."
+ *      ),
+ *     @OA\Tag(
+ *          name="Client Roles",
+ *          description="Operaciones relacionados con los roles a nivel de cliente de Keycloak."
+ *      ),
+ *     @OA\Tag(
+ *          name="User Role",
+ *          description="Operaciones relacionados con el reino de Keycloak."
+ *      ),
+ *     @OA\Tag(
+ *          name="Users",
+ *          description="Operaciones relacionados con los usuarios del reino de Keycloak."
+ *      ),
  */
 abstract class Controller
 {

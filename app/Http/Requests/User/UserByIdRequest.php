@@ -24,6 +24,7 @@ class UserByIdRequest extends FormRequest
         return [
             'realm'=> 'required|string',
             'user_id'=> 'required|string',
+            'enabled'=> 'nullable|string',
         ];
     }
 }

@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Contracts\Client\IClient;
 use App\Contracts\Client\IClientRoles;
+use App\Contracts\Realm\IRealm;
 use App\Contracts\User\IUser;
 use App\Contracts\User\IUserRole;
 use App\Repository\Client\ClientRepository;
 use App\Repository\Client\ClientRoleRepository;
+use App\Repository\Realm\RealmRepository;
 use App\Repository\User\UserRepository;
 use App\Repository\User\UserRoleRepository;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,7 @@ class KeyCloakServiceProvider extends ServiceProvider
         $this->app->bind(IClient::class, ClientRepository::class);
         $this->app->bind(IClientRoles::class, ClientRoleRepository::class);
         $this->app->bind(IUserRole::class, UserRoleRepository::class);
+        $this->app->bind(IRealm::class, RealmRepository::class);
     }
 
     /**

@@ -70,7 +70,7 @@ class UserRepository implements IUser
     {
         try {
             $realm = $data['realm'];
-            $user_representation = $this->setInformationUser($data);
+            $user_representation = $this->setInformationUser($data, new UserRepresentation());
             $user = KeycloakAdmin::users()->create($realm, $user_representation);
             if($user) return [true, 'Operación exitosa', null, 200];
             return [false, 'Algo salio mal, intente mas tarde.', null, 400];
@@ -179,7 +179,7 @@ class UserRepository implements IUser
         try {
 
             $user = KeycloakAdmin::users()->joinGroup($realm, $user_id, $group_id);
-            return [true, 'Operación exitosa', new UserResource($user), 200];
+            return [true, 'Operación exitosa', null, 200];
         } catch (\Exception $th) {
             $status_code = $th->getCode();
             if($status_code != 500) {
@@ -230,7 +230,6 @@ class UserRepository implements IUser
 
     public function setInformationUser(array $data, UserRepresentation $user_representation) : UserRepresentation
     {
-
         foreach ($data as $key => $value) {
                 switch ($key) {
                     case 'username':

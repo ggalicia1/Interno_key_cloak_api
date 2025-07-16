@@ -21,6 +21,7 @@ class ClientRolesController extends Controller
      *     path="/api/clients/roles",
      *     summary="Obtiene una lista de los roles por Id de cliente de un reino",
      *     tags={"Client Roles"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -69,6 +70,7 @@ class ClientRolesController extends Controller
      *     path="/api/clients/roles/role-by-name",
      *     summary="Obtiene un roles por nombre.",
      *     tags={"Client Roles"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -112,6 +114,7 @@ class ClientRolesController extends Controller
      *     path="/api/clients/roles/create",
      *     summary="Crear un nuevo rol de cliente.",
      *     tags={"Client Roles"},
+     *      security={{"bearer_token":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -170,6 +173,7 @@ class ClientRolesController extends Controller
      *     path="/api/clients/roles/update",
      *     summary="Update un rol de cliente.",
      *     tags={"Client Roles"},
+     *      security={{"bearer_token":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

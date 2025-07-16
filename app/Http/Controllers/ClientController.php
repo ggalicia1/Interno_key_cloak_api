@@ -22,6 +22,7 @@ class ClientController extends Controller
      *     path="/api/clients",
      *     summary="Listar clientes del reino.",
      *     tags={"Clients"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -64,6 +65,7 @@ class ClientController extends Controller
      *     path="/api/clients/{realm}/catalog",
      *     summary="Listar clientes del reino.",
      *     tags={"Clients"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="path",
@@ -94,6 +96,7 @@ class ClientController extends Controller
      *     path="/api/clients/client-by-id",
      *     summary="Obtiene cliente por Id de un reino",
      *     tags={"Clients"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -131,6 +134,7 @@ class ClientController extends Controller
      *     path="/api/clients/create",
      *     summary="Crear un nuevo cliente en el reino especificado",
      *     tags={"Clients"},
+     *      security={{"bearer_token":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -194,6 +198,7 @@ class ClientController extends Controller
      *     path="/api/clients/update",
      *     summary="Actualizar un cliente existente en Keycloak",
      *     tags={"Clients"},
+     *      security={{"bearer_token":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

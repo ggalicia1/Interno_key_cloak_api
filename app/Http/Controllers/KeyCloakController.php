@@ -13,7 +13,7 @@ class KeyCloakController extends Controller
      * @OA\Get(
      *     path="/api/roles",
      *     summary="Listar roles del reino",
-     *     tags={"Roles"},
+     *     tags={"Realm Roles"},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -58,7 +58,7 @@ class KeyCloakController extends Controller
      * @OA\Get(
      *     path="/api/roles/role-by-name",
      *     summary="Obtiene rol por nombre del reino.",
-     *     tags={"Roles"},
+     *     tags={"Realm Roles"},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -121,7 +121,7 @@ class KeyCloakController extends Controller
      * @OA\Get(
      *     path="/api/realms",
      *     summary="Listar reinos de keycloak",
-     *     tags={"Realms"},
+     *     tags={"Realm"},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de roles",
@@ -159,7 +159,7 @@ class KeyCloakController extends Controller
      * @OA\Get(
      *     path="/api/realms/realm-by-name",
      *     summary="Obtiene reino por nombre",
-     *     tags={"Realms"},
+     *     tags={"Realm"},
      *      @OA\Parameter(
      *         name="realm_name",
      *         in="query",

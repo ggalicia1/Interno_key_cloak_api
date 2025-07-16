@@ -20,6 +20,7 @@ class UserRoleController extends Controller
      *     path="/api/users/clients/roles",
      *     summary="Obtiene lista de roles por un usuario.",
      *     tags={"User Role"},
+     *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",

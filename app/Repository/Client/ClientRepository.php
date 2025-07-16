@@ -31,7 +31,9 @@ class ClientRepository implements IClient
 
             $new_data = [];
             foreach ($clients as $client) {
-                $new_data [] = new ClientResource($client);
+                 if(!UnusedCustomers::unusedCustomers($client->clientId)){
+                    $new_data [] = new ClientResource($client);
+                }
             }
             $pagination->data = $new_data;
             return [true, 'Operación exitosa', $pagination, 200];

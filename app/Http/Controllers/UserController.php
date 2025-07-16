@@ -29,6 +29,7 @@ class UserController extends Controller
      *     path="/api/users",
      *     summary="Listar usuarios de un reino.",
      *     tags={"Users"},
+     *     security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -70,6 +71,7 @@ class UserController extends Controller
      *     path="/api/users/user-by-id",
      *     summary="Obtiene un usuario por id del reino.",
      *     tags={"Users"},
+     *     security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -162,7 +164,7 @@ class UserController extends Controller
      *      )
      *  )
      */
-    public function create(UserCreateRequest $request) : JsonResponse
+    public function createUser(UserCreateRequest $request) : JsonResponse
     {
         $data = $request->validated();
         list($status, $message, $response, $code) = $this->user_repository->create($data);
@@ -238,28 +240,29 @@ class UserController extends Controller
     }
     /**
      * @OA\Put(
-     *      path="/api/users/enable-disable/{realm}/{user_id}/{enabled}",
+     *      path="/api/users/enable-disable",
      *      tags={"Users"},
      *      summary="Activar y desactivar un usuario.",
      *      description="Endpoint para habilitar y deshabilitar usuario del keycloak.",
      *      security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
-     *         in="path",
+     *         in="query",
      *         description="Id del reino",
      *         required=true,
      *      ),
      *      @OA\Parameter(
      *         name="user_id",
-     *         in="path",
+     *         in="query",
      *         description="Id del usuario",
      *         required=true,
      *      ),
      *      @OA\Parameter(
      *         name="enabled",
-     *         in="path",
-     *         description="Id del usuario",
+     *         in="query",
+     *         description="True de activar y false para desactivar un usuario",
      *         required=true,
+     *         example=false
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -286,12 +289,15 @@ class UserController extends Controller
      *      )
      *  )
      */
-    public function enableDisable(string $realm, string $user_id, string $enabled) : JsonResponse
+    public function enableDisable(UserByIdRequest $data) : JsonResponse
     {
-        if($enabled == true){
-            $data = [ 'enabled' => true];
-        }else if($enabled == false){
-            $data = [ 'enabled' => false];
+
+        $realm = $data['realm'];
+        $user_id = $data['user_id'];
+        if($data['enabled'] == 'true'){
+            $data = ['enabled' => true];
+        }else if($data['enabled'] == 'false'){
+            $data = ['enabled' => false];
         }else{
             return Response::error(false, 'Debe de enviar un valor de tipo bool', 422);
         }
@@ -366,6 +372,7 @@ class UserController extends Controller
      *     path="/api/users/search",
      *     summary="Buscar usuario por nombre usuarios, nombres, apellidos o correo electronico en un reino.",
      *     tags={"Users"},
+     *     security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -419,6 +426,7 @@ class UserController extends Controller
      *     path="/api/users/retrieve-realm-roles",
      *     summary="Recupera roles del usuario",
      *     tags={"Users"},
+     *     security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",
@@ -587,6 +595,7 @@ class UserController extends Controller
      *     path="/api/users/retrieve-groups",
      *     summary="Recupera reupos donde esta el usuario",
      *     tags={"Users"},
+     *     security={{"bearer_token":{}}},
      *      @OA\Parameter(
      *         name="realm",
      *         in="query",

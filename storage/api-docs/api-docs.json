@@ -58,7 +58,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/{realm}/catalog": {
@@ -101,7 +106,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/client-by-id": {
@@ -150,7 +160,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/create": {
@@ -281,7 +296,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/update": {
@@ -410,7 +430,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/delete": {
@@ -558,7 +583,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/roles/role-by-name": {
@@ -613,7 +643,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/roles/create": {
@@ -710,7 +745,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/roles/update": {
@@ -807,7 +847,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/clients/roles/delete": {
@@ -906,7 +951,7 @@
         "/api/roles": {
             "get": {
                 "tags": [
-                    "Roles"
+                    "Realm Roles"
                 ],
                 "summary": "Listar roles del reino",
                 "operationId": "d65ad88054aa19a95849109a46bfab0a",
@@ -949,7 +994,7 @@
         "/api/roles/role-by-name": {
             "get": {
                 "tags": [
-                    "Roles"
+                    "Realm Roles"
                 ],
                 "summary": "Obtiene rol por nombre del reino.",
                 "operationId": "63a8bcc95d6f731c5b14dacf9adb6cac",
@@ -998,7 +1043,7 @@
         "/api/realms": {
             "get": {
                 "tags": [
-                    "Realms"
+                    "Realm"
                 ],
                 "summary": "Listar reinos de keycloak",
                 "operationId": "ec40aa3236554383d74b072ebcb5a4f5",
@@ -1033,7 +1078,7 @@
         "/api/realms/realm-by-name": {
             "get": {
                 "tags": [
-                    "Realms"
+                    "Realm"
                 ],
                 "summary": "Obtiene reino por nombre",
                 "operationId": "3d8114084358ba290db326123341897c",
@@ -1125,7 +1170,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1133,7 +1183,7 @@
                 ],
                 "summary": "Crear un usuario en Keycloak",
                 "description": "Endpoint para crear un usuario en Keycloak con los datos proporcionados.",
-                "operationId": "1a63883edb751cb640a2f6f516236f49",
+                "operationId": "15cb7ac620df8a65f737624b240b8976",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1333,7 +1383,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/{realm}/{user_id}": {
@@ -1455,32 +1510,33 @@
                 ]
             }
         },
-        "/api/users/enable-disable/{realm}/{user_id}/{enabled}": {
+        "/api/users/enable-disable": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Activar y desactivar un usuario.",
                 "description": "Endpoint para habilitar y deshabilitar usuario del keycloak.",
-                "operationId": "e7ba6a24541e0af51a33d4dd725a2826",
+                "operationId": "0b81e6875437958d0479d3fff0ca9f4d",
                 "parameters": [
                     {
                         "name": "realm",
-                        "in": "path",
+                        "in": "query",
                         "description": "Id del reino",
                         "required": true
                     },
                     {
                         "name": "user_id",
-                        "in": "path",
+                        "in": "query",
                         "description": "Id del usuario",
                         "required": true
                     },
                     {
                         "name": "enabled",
-                        "in": "path",
-                        "description": "Id del usuario",
-                        "required": true
+                        "in": "query",
+                        "description": "True de activar y false para desactivar un usuario",
+                        "required": true,
+                        "example": false
                     }
                 ],
                 "responses": {
@@ -1726,7 +1782,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/retrieve-realm-roles": {
@@ -1777,7 +1838,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/join-group/{realm}/{user_id}/{group_id}": {
@@ -2014,7 +2080,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/clients/roles": {
@@ -2069,7 +2140,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/users/clients/assign-role": {
@@ -2281,28 +2357,39 @@
     },
     "tags": [
         {
+            "name": "Realm",
+            "description": "Operaciones relacionados con el reino de Keycloak."
+        },
+        {
+            "name": "Realm Roles",
+            "description": "Operaciones relacionados con los roles a nivel de reino de Keycloak."
+        },
+        {
             "name": "Clients",
-            "description": "Clients"
+            "description": "Operaciones relacionados con los clientes del reino de Keycloak."
         },
         {
             "name": "Client Roles",
-            "description": "Client Roles"
-        },
-        {
-            "name": "Roles",
-            "description": "Roles"
-        },
-        {
-            "name": "Realms",
-            "description": "Realms"
-        },
-        {
-            "name": "Users",
-            "description": "Users"
+            "description": "Operaciones relacionados con los roles a nivel de cliente de Keycloak."
         },
         {
             "name": "User Role",
-            "description": "User Role"
+            "description": "Operaciones relacionados con el reino de Keycloak."
+        },
+        {
+            "name": "Users",
+            "description": "Operaciones relacionados con los usuarios del reino de Keycloak."
         }
-    ]
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in format (Bearer Token)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
 }
