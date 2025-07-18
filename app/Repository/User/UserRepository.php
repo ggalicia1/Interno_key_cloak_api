@@ -30,7 +30,7 @@ class UserRepository implements IUser
             $realm = $request['realm'] ?? 'Interno';
 
 
-            $total = KeycloakAdmin::users()->count($realm, ['enabled' => true]);
+            $total = KeycloakAdmin::users()->count($realm/* , ['enabled' => true] */);
             $pagination = GeneratePagination::pagination($request, $total);
             $pagination->total_page = ceil($pagination->total / $pagination->page_size);
             $users = KeycloakAdmin::users()->all($realm, [

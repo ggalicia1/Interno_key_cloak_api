@@ -24,7 +24,7 @@ class UserResource extends JsonResource
                     'client_roles' => $this->clientRoles,
                     'client_consents' => $this->clientConsents,
                     'realm_roles' => $this->realmRoles,
-                    'enabled' => true,
+                    'enabled' => $this->enabled,
                     'credentials' => $this->credentials,
                     'disableable_credential_types' => $this->disableableCredentialTypes,
                     'access' => $this->access,
