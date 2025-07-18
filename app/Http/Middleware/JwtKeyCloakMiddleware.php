@@ -84,7 +84,7 @@ class JwtKeyCloakMiddleware
             $user['name'] = $jwt_decoded['name'];
             $user['email'] = $jwt_decoded['email'];
             $user['email_verified'] = $jwt_decoded['email_verified'];
-            $user['resource_access'] = $jwt_decoded['resource_access'];
+            $user['resource_access'] = $jwt_decoded['resource_access'] ?? null;
             session()->put('user', $user);
             return $next($request);
         } catch (\Exception $th) {

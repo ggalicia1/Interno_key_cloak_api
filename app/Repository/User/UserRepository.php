@@ -36,7 +36,7 @@ class UserRepository implements IUser
             $users = KeycloakAdmin::users()->all($realm, [
                                                             'max' => $pagination->page_size,
                                                             'first' => $pagination->page_index,
-                                                            'enabled' => true,
+                                                            //'enabled' => true,
                                                         ]);
             if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
 

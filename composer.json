@@ -12,7 +12,7 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "overtrue/laravel-keycloak-admin": "^1.0"
+        "mintrab/laravel-keycloak-admin": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -75,5 +75,15 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/eallaramt/laravel-keycloak-admin.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/eallaramt/keycloak-rest-api-client-php.git"
+        }
+    ]
 }
