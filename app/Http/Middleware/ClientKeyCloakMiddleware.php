@@ -19,18 +19,18 @@ class ClientKeyCloakMiddleware
         try {
             if (session()->has('user')) {
                 $user = session()->get('user');
-                if(($user['client_id'] == 'sso-client')){
-                    foreach ($user['resource_access'] as $key => $value) {
-                        if($key == 'sso-client'){
+                if(($user['client_id'] == 'sso-client' || $user['client_id'] == 'sso-login')){
+                    //foreach ($user['resource_access'] as $key => $value) {
+                    //    if($key == 'sso-client'){
                             return $next($request);
-                        }
-                    }
+                    //    }
+                    //}
 
-                    return response()->json([
+                    /*return response()->json([
                         'status'   => false,
                         'message' => 'No autorizado.',
                         'error' => 'El cliente no tiene acceso.'
-                    ], Response::HTTP_UNAUTHORIZED);
+                    ], Response::HTTP_UNAUTHORIZED);*/
                 }
                 return response()->json([
                             'status'   => false,
