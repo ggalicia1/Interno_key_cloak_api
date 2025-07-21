@@ -3,7 +3,6 @@
 namespace App\Repository\User;
 
 use App\Contracts\User\IUser;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Paginate\GeneratePagination;
 use Illuminate\Support\Facades\Log;
@@ -28,8 +27,6 @@ class UserRepository implements IUser
     {
         try {
             $realm = $request['realm'] ?? 'Interno';
-
-
             $total = KeycloakAdmin::users()->count($realm/* , ['enabled' => true] */);
             $pagination = GeneratePagination::pagination($request, $total);
             $pagination->total_page = ceil($pagination->total / $pagination->page_size);
@@ -39,7 +36,6 @@ class UserRepository implements IUser
                                                             //'enabled' => true,
                                                         ]);
             if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
-
             $data = [];
             foreach ($users as $user) {
                 $data [] = new UserResource($user);
@@ -130,12 +126,13 @@ class UserRepository implements IUser
     {
         try {
             $pagination = GeneratePagination::pagination($data, null);
-            $users = KeycloakAdmin::users()->search($data['realm'], [
-                                                            'max' => $pagination->page_size,
-                                                            'first' => $pagination->page_index,
-                                                            'enabled' => true,
-                                                            'search' => $data['search'],
-                                                            ]);
+            $search = array();
+            $search['max'] = $pagination->page_size ?? null;
+            $search['first'] = $pagination->page_index;
+            if(isset($data['search'])){
+                $search['search'] = $data['search'];
+            }
+            $users = KeycloakAdmin::users()->search($data['realm'], $search);
 
             if(count($users) == 0 ) return [false, 'No se encontraron usuarios.', null, 404];
             $new_data = [];

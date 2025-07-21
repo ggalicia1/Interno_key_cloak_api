@@ -13,10 +13,6 @@ use App\Http\Requests\User\UserCredentialRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Response\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Js;
-
-use function PHPUnit\Framework\isBool;
 
 class UserController extends Controller
 {
