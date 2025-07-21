@@ -25,7 +25,7 @@ class SearchUserRequest extends FormRequest
             'realm' => 'required|string|max:100',
             'page_size' => 'required|integer',
             'page' => 'required|integer',
-            'search' => 'required|string',
+            'search' => 'nullable|string',
         ];
     }
 }

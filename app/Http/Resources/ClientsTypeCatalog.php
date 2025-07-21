@@ -18,6 +18,7 @@ class ClientsTypeCatalog extends JsonResource
                 'id' => $this->id,
                 'client_id' => $this->clientId,
                 'name' => $this->name,
+                'redirect_uris' => $this->redirectUris,
             ];
     }
 }
