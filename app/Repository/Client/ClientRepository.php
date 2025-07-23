@@ -32,6 +32,15 @@ class ClientRepository implements IClient
             $new_data = [];
             foreach ($clients as $client) {
                  if(!UnusedCustomers::unusedCustomers($client->clientId)){
+                    foreach ($client->attributes as $key => $value) {
+                        if($key == 'post.logout.redirect.uris'){
+                            $post_logout_redirect_uris = $value;
+                        }
+                    }
+                    $client = $client->withAttributes([
+                                                        'post_logout_redirect_uris' => $post_logout_redirect_uris
+                                                    ]);
+
                     $new_data [] = new ClientResource($client);
                 }
             }
@@ -78,6 +87,15 @@ class ClientRepository implements IClient
         try {
             $client = KeycloakAdmin::clients()->get($data['realm'], $data['client_uuid']);
             if(!$client) return [false, 'No se encontraron clientes.', null, 404];
+            $post_logout_redirect_uris = null;
+            foreach ($client->attributes as $key => $value) {
+                if($key == 'post.logout.redirect.uris'){
+                    $post_logout_redirect_uris = $value;
+                }
+            }
+            $client = $client->withAttributes([
+                                                    'post_logout_redirect_uris' => $post_logout_redirect_uris
+                                                ]);
             return [true, 'Operación exitosa', new ClientResource($client), 200];
         } catch (\Throwable $th) {
             $status_code = $th->getCode();
@@ -88,8 +106,6 @@ class ClientRepository implements IClient
             }
             Log::error('Error al obtener lista de clientes: ' . $th->getMessage());
             return [false, 'Error en el servidor no se pudo realizar la consulta.', null, $status_code];
-
-
         }
     }
 

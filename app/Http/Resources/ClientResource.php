@@ -14,6 +14,7 @@ class ClientResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
             'client_id' => $this->clientId,
@@ -24,6 +25,7 @@ class ClientResource extends JsonResource
             'secret' => $this->secret,
             'client_authenticator_type' => $this->clientAuthenticatorType,
             'redirect_uris' => $this->redirectUris,
+            'attributes' => $this->attributes,
             'base_url' => $this->baseUrl,
             'admin_url' => $this->adminUrl,
             'root_url' => $this->rootUrl,

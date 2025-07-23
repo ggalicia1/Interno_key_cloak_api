@@ -360,10 +360,6 @@
                                         "format": "url",
                                         "example": "http://mi-app.test/admin"
                                     },
-                                    "origin": {
-                                        "type": "string",
-                                        "example": "http://mi-app.test"
-                                    },
                                     "redirect_uris": {
                                         "type": "array",
                                         "items": {

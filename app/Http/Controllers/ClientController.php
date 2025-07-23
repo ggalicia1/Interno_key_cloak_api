@@ -214,7 +214,6 @@ class ClientController extends Controller
      *             @OA\Property(property="root_url", type="string", format="url", example="http://mi-app.test"),
      *             @OA\Property(property="base_url", type="string", format="url", example="http://mi-app.test"),
      *             @OA\Property(property="admin_url", type="string", format="url", example="http://mi-app.test/admin"),
-     *             @OA\Property(property="origin", type="string", example="http://mi-app.test"),
      *             @OA\Property(
      *                 property="redirect_uris",
      *                 type="array",
