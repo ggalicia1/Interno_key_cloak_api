@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     libgd-dev \
     ghostscript \
     libmagickwand-dev --no-install-recommends \
+    libsodium-dev \
     && pecl install imagick
     # supervisor \
 # Clear cache
@@ -34,9 +35,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
 RUN docker-php-ext-enable imagick
-RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring zip exif pcntl sodium
+RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-external-gd
 RUN docker-php-ext-install gd
+RUN docker-php-ext-install sodium
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
