@@ -40,7 +40,7 @@ class JwtKeyCloakMiddleware
 
         try {
 
-/*            list($status, $message, $realm_keys, $code ) = $this->realm_repository->keys($realm);
+           list($status, $message, $realm_keys, $code ) = $this->realm_repository->keys($realm);
             if(!$status){
                 return response()->json([
                     'status'   => false,
@@ -62,14 +62,12 @@ class JwtKeyCloakMiddleware
             (string) $public_key_pem = '';
             foreach ($keys as $key) {
                 if($key->algorithm == 'RS256') {
-                    $public_key_pem = "-----BEGIN PUBLIC KEY-----\n{$key->publicKey}\n-----END PUBLIC KEY-----";*/
-		      $public_key_pem = "-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnLbm0eBtkegTJqWTnPeGKQ6/+Tjr99cH455NGHyRIK0tYuh2Y0Y8U7m0923eTqUwfJvCNp1OZVdWADJFhUc0xcQeSMR0lAowx14e8KxEHU+zuYbBFPDltBA8FYti3mn5HskGD6xOh23FTgIEoEbrecYrnHm2jD/qED1AREeUTZRf/MHoUhZ0fBAz6XNBEUXL7PFmkTxHoBKVO298lHtwLYJbOdQWLprj9GJLcADa20prAirQMaYfhGZfvtmXlOno6GoK4DYnspiDx9wM/ZFumUgQIV9faGyHaodE9fCrcTClhcuxrHmXJ/Ws38i8WiGqXpZbPYILHdoOwXG+LwD9ewIDAQAB
------END PUBLIC KEY-----";
-    /*
+                    $public_key_pem = "-----BEGIN PUBLIC KEY-----\n{$key->publicKey}\n-----END PUBLIC KEY-----";
+
+
             }
             }
-*/
+
             if(!$public_key_pem) {
                 return response()->json([
                     'status'   => false,
